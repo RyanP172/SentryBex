@@ -6,12 +6,12 @@ using SentryBex.Services.Account;
 
 namespace SentryBex.Controllers
 {
-    
+
     /// <summary>
-    
+
 
     /// </summary>
-    
+
 
     [EnableCors("SentryBexCORSRules")]
     [Route("api/[controller]")]
@@ -19,12 +19,12 @@ namespace SentryBex.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountRepository _accountRepository;
-        
+
 
         public AccountController(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
-            
+
         }
 
         [HttpGet]
@@ -32,8 +32,24 @@ namespace SentryBex.Controllers
         public async Task<IActionResult> GetAllAccounts()
         {
             var accounts = await _accountRepository.GetAllAccountsAsync();
-            return  Ok(accounts);
+            return Ok(accounts);
         }
+
+        [HttpGet("{email}")]
+
+        public async Task<ActionResult<bool>> CheckAccountIfEmailExist(string email)
+        {
+            bool exists = false;
+            if (await _accountRepository.CheckEmailAccountExist(email))
+            {
+                BadRequest(new { status = 400, message = $"Account email {email} already existed" });
+                exists = true;
+                return exists;
+            }
+
+            return exists;
+        }
+
 
         /*[HttpPost]
         public async Task<IActionResult> CreateAccountAsync([FromBody] EpeEmployeeCreateDto registerBody)

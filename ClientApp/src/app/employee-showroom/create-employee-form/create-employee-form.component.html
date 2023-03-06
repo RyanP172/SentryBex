@@ -6,34 +6,77 @@
         <label for="email" class="form-label">Email</label>
         <input name="userEmail" type="email" class="form-control" id="user-email" >
       </div>
+
       <form #form="ngForm" (ngSubmit)="createEmployee()">
         <div class="col-6">
-
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="firstName" class="form-label">First Name</label>
             <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="employee.firstName">
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="middleName" class="form-label">Middle Name</label>
             <input name="middle" type="text" class="form-control" id="middle-name" [(ngModel)]="employee.middleName">
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="lastName" class="form-label">Last Name</label>
             <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Sam Account</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Password</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Password Salt</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Date of Birth</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Code</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
             <label for="contractor" class="form-label">Is Contractor?</label>
             <select name="contractor" [(ngModel)]="employee.isContractor" class="form-select" aria-label="Default select example" id="is-contractor">
-              <option [ngValue]="false">false</option>
-              <option [ngValue]="true">true</option>
+              <option [ngValue]="false">No</option>
+              <option [ngValue]="true">Yes</option>
             </select>
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Contractor Type</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Show Room</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Status</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
+            <label for="monthlyBudget" class="form-label">Company Id</label>
+            <input name="budget" type="number" class="form-control" id="monthly-budget" [(ngModel)]="employee.monthlyBudget">
+          </div>
+          <div class="mb-2">
+            <label for="lastName" class="form-label">Max Lead Count</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-2">
             <label for="monthlyBudget" class="form-label">Monthly Budget</label>
             <input name="budget" type="number" class="form-control" id="monthly-budget" [(ngModel)]="employee.monthlyBudget">
           </div>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
 
+          <div class="button-container">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          </div>
 
         </div>
 

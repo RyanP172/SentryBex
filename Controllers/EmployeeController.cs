@@ -254,7 +254,7 @@ namespace SentryBex.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewEmployee([FromBody] EpeEmployeeCreateDto createEmployee)
         {
-            if (await _accountRepository.CheckEmailAccountExist(createEmployee))
+            if (await _accountRepository.CheckEmailAccountExist(createEmployee.Email))
             {
                 return BadRequest(new { status = 400, message = $"Account email {createEmployee.Email} already existed" });
             }

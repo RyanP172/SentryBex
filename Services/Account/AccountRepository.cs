@@ -47,10 +47,10 @@ namespace SentryBex.Services.Account
             return await _appContext.UsrAccounts.ToListAsync();
         }
 
-        public async Task<bool> CheckEmailAccountExist(EpeEmployeeCreateDto createAccountBody)
+        public async Task<bool> CheckEmailAccountExist(string email)
         {
             
-            UserAccount? account = await _appContext.UsrAccounts.FirstOrDefaultAsync(a => a.UserName == createAccountBody.Email);
+            UserAccount? account = await _appContext.UsrAccounts.FirstOrDefaultAsync(a => a.UserName == email);
             if (account != null)
             {
                 return true;

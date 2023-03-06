@@ -9,7 +9,7 @@ namespace SentryBex.Services.Account
         
         Task<bool> CreateAccountAsync(EpeEmployeeCreateDto createAccountBody);
         Task<IEnumerable<UsrAccount>> GetAllAccountsAsync();
-        Task<bool> CheckEmailAccountExist(EpeEmployeeCreateDto createAccountBody);
+        Task<bool> CheckEmailAccountExist(string email);
 
 
 

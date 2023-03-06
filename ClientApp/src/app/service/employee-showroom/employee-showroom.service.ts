@@ -4,6 +4,7 @@ import { catchError, Observable, of, throwError } from 'rxjs';
 import { Employee } from '../../interface/employee';
 import { ShowRoom } from '../../interface/show-room';
 import { environment } from '../../../environments/environment';
+import { CreateEmployee } from '../../interface/createEmployee';
 
 
 @Injectable({
@@ -11,13 +12,20 @@ import { environment } from '../../../environments/environment';
 })
 export class EmployeeShowroomService {
 
+  /*apiUrl: 'https://localhost:7042'*/
   private apiUrl = environment.apiUrl;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {  }
 
+  validateEmail(email: string) {
+    return this.http.get<boolean>(`${this.apiUrl}/api/account`+{email})
   }
-  
+
+  createEmployee(createEmployee: CreateEmployee): Observable<CreateEmployee> {
+    return this.http.post<CreateEmployee>(`${this.apiUrl}/api/employee/`, createEmployee);
+  }
+
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(`${this.apiUrl}/api/employee`);
   }
