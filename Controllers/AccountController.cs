@@ -35,7 +35,7 @@ namespace SentryBex.Controllers
             return  Ok(accounts);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<IActionResult> CreateAccountAsync([FromBody] EpeEmployeeCreateDto registerBody)
         {
             if (await _accountRepository.CheckEmailAccountExist(registerBody))
@@ -44,6 +44,6 @@ namespace SentryBex.Controllers
             }
             var account = await _accountRepository.CreateAccountAsync(registerBody);
             return Ok(account);
-        }
+        }*/
     }
 }
