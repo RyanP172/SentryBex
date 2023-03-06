@@ -7,9 +7,10 @@ namespace SentryBex.Services.Account
     public interface IAccountRepository
     {
         
-        Task<UsrAccount> CreateAccountAsync(UsrAccountCreateDto createAccountBody);
+        Task<bool> CreateAccountAsync(UsrAccountCreateDto createAccountBody);
         Task<IEnumerable<UsrAccount>> GetAllAccountsAsync();
-        
+        Task<bool> CheckEmailAccountExist(UsrAccountCreateDto createAccountBody);
+
 
 
 

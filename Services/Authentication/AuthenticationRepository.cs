@@ -32,6 +32,8 @@ namespace SentryBex.Services.Authentication
         }
         public async Task<bool> CheckEmailExist(AspNetUserRegisterDto registerBody)
         {
+
+
             var user = await _userManager.FindByEmailAsync(registerBody.Email);
             if (user != null)
             {

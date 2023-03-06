@@ -38,6 +38,10 @@ namespace SentryBex.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAccountAsync([FromBody] UsrAccountCreateDto registerBody)
         {
+            if (await _accountRepository.CheckEmailAccountExist(registerBody))
+            {
+                return BadRequest(new { status = 400, message = $"Account email {registerBody.Email} already existed" });
+            }
             var account = await _accountRepository.CreateAccountAsync(registerBody);
             return Ok(account);
         }

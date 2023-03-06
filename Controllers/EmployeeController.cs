@@ -40,6 +40,7 @@ namespace SentryBex.Controllers
         }
 
 
+        [EnableCors("SentryBexCORSRules")]
         [HttpGet]
         [HttpHead]
         /*[Authorize(AuthenticationSchemes = "Bearer")]
@@ -248,7 +249,7 @@ namespace SentryBex.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewEmployee([FromBody] EpeEmployeeCreateDto createEmployee)
         {
-            var employee = _epeEmployeeRepository.SaveCreatedEmployeeAsync(createEmployee);
+            var employee = await _epeEmployeeRepository.SaveCreatedEmployeeAsync(createEmployee);
             return Ok(employee);
         }
     }
