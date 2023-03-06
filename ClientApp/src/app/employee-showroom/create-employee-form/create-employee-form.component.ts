@@ -12,17 +12,22 @@ export class CreateEmployeeFormComponent {
   }
 
   employee: CreateEmployee = {
-    
+
     firstName: '',
     middleName: '',
     lastName: '',
     dob: '',
-    accountFk: 0,
     code: '',
-    isContractor: false,
-    contractorTypeFk: '',
-    defaultShowroomFk: 0,
-    maxLeadCount: 0,
-    monthlyBudget: 0,
+    isContractor: true,
+    contractorTypeId: '',
+    defaultShowroomFk: 12,
+    maxLeadCount: 5,
+    monthlyBudget: 5000,
+    companyId: 3,
+    email: '',
+    samaccountname: '',
+    password: '',
+    passwordsalt: '',
+    status: '',
   }
 }

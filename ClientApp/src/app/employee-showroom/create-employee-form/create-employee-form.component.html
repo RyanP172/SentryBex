@@ -1,5 +1,5 @@
-<div class="container my-5">
-  <h1 class="mb-3" id="tableLabel">View/Edit Employee</h1>
+<div class="container my-3">
+  <h1 class="mb-3" id="tableLabel">Create New Employee</h1>
   <div class="row">
     <div class="col-12">
       <div class="mb-3">
@@ -11,11 +11,11 @@
 
           <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="createEmployee.firstName">
+            <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="employee.firstName">
           </div>
           <div class="mb-3">
             <label for="middleName" class="form-label">Middle Name</label>
-            <input name="middle" type="text" class="form-control" id="middle-name" [(ngModel)]="createEmployee.middleName">
+            <input name="middle" type="text" class="form-control" id="middle-name" [(ngModel)]="employee.middleName">
           </div>
           <div class="mb-3">
             <label for="lastName" class="form-label">Last Name</label>
@@ -33,18 +33,8 @@
             <input name="budget" type="number" class="form-control" id="monthly-budget" [(ngModel)]="employee.monthlyBudget">
           </div>
           <button type="submit" class="btn btn-primary">Save Changes</button>
-          <div class=" mb-3" *ngIf="statusDesc.status == 400">
-            <label for="state" class="form-label"></label>
-            <div class="alert alert-danger form-label" role="alert">
-              Error! {{statusDesc.description}}
-            </div>
-          </div>
-          <div class=" mb-3" *ngIf="statusDesc.status == 200">
-            <label for="state" class="form-label"></label>
-            <div class="alert alert-success" role="alert">
-              {{statusDesc.description}}
-            </div>
-          </div>
+
+
         </div>
 
       </form>
