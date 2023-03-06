@@ -21,6 +21,7 @@ import { InputFilterComponent } from './components/input-filter/input-filter.com
 import { FilterPipeAspUser } from './role/edit-role/email-filter';
 import { ExchangeBoxComponent } from './components/exchange-box/exchange-box.component';
 import { LoginComponent } from './login/login.component';
+import { CreateEmployeeFormComponent } from './employee-showroom/create-employee-form/create-employee-form.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LoginComponent } from './login/login.component';
     OrderByTablePipe,
     InputFilterComponent,
     ExchangeBoxComponent,
-    LoginComponent
+    LoginComponent,
+    CreateEmployeeFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,6 +55,7 @@ import { LoginComponent } from './login/login.component';
       { path: 'fetch-role/roles/edit/:id', component: EditRoleComponent },
       { path: 'fetch-employee-showroom/employees/edit/:id', component: EditEmployeeComponent },
       { path: 'fetch-employee-showroom/showrooms/edit/:id', component: EditShowroomsComponent },
+      { path: 'fetch-employee-showroom/employees/create-new-employee', component: CreateEmployeeFormComponent },
     ]),
     FontAwesomeModule,
   ],

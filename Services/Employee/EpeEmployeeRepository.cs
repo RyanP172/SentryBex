@@ -311,8 +311,7 @@ namespace SentryBex.Services
                 };
                 await _context.UsrAccounts.AddRangeAsync(account);
                 if (await _context.SaveChangesAsync() > 0)
-                {
-                    
+                {                    
                     EpeEmployee employee = new EpeEmployee
                     {
                         FirstName = _employee.FirstName,
@@ -332,19 +331,19 @@ namespace SentryBex.Services
                     await _context.EpeEmployees.AddAsync(employee);
                     if (await _context.SaveChangesAsync() > 0)
                     {
-                        var showroomLink = new EpeEmployeeShowroomLink
+                        EpeEmployeeShowroomLink showroomLink = new EpeEmployeeShowroomLink
                         {
                             ShowroomFk = _employee.DefaultShowroomFk,
                             EmployeeFk = _employee.CompanyId
                         };
                         await _context.EpeEmployeeShowroomLinks.AddRangeAsync(showroomLink);
-                        var companyLink = new EpeEmployeeCompanyLink
+                        EpeEmployeeCompanyLink companyLink = new EpeEmployeeCompanyLink
                         {
                             CompanyFk = _employee.CompanyId,
                             EmployeeFk = employee.Id
                         };
                         await _context.EpeEmployeeCompanyLinks.AddRangeAsync(companyLink);
-                        var groupLink = new EpeEmployeeGroupLink
+                        EpeEmployeeGroupLink groupLink = new EpeEmployeeGroupLink
                         {
                             EmployeeFk = employee.Id,
                             GroupFk = 4,

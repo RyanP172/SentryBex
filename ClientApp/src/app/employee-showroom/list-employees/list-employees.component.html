@@ -1,4 +1,14 @@
-<h1 id="tableLabel">Employees</h1>
+<div>
+  <h1 id="tableLabel" style="float: left;">Employees</h1>
+  <button style="float: right;
+          margin-top: 20px;
+          margin-bottom: 20px;"
+          class="btn btn-primary"          
+          routerLink='/fetch-employee-showroom/employees/create-new-employee'>
+    Add New Employee
+  </button>
+</div>
+
 
 <div class="spinner-grow" role="status" *ngIf="!employees">
   <span class="sr-only">Loading...</span>
@@ -6,23 +16,23 @@
 
 
 <div class="input-group">
-  <input  type="text" placeholder="Search the employees by typing their Firstname..." class="form-control rounded" aria-label="Search" aria-describedby="search-addon" [(ngModel)] = "filterText"/>
+  <input type="text" placeholder="Search the employees by typing their Firstname..." class="form-control rounded" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="filterText" />
   <button class="btn btn-secondary" disabled><fa-icon [icon]="glass"></fa-icon></button>
 </div>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="employees else elseBlock" >
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="employees else elseBlock">
   <thead class="employeeList">
     <tr>
-      <th (click)="sortField = 'account.userName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Email</a></th>
-      <th (click)="sortField = 'firstName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">First Name</a></th>
-      <th (click)="sortField = 'middleName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Middel Name</a></th>
-      <th (click)="sortField = 'lastName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Last Name</a></th>
-      <th (click)="sortField = 'monthlyBudget'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Monthly Budgets</a></th>
-      <th (click)="sortField = 'account.status'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">View&Status</a></th>
+      <th (click)="sortField = 'account.userName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"><a style="cursor: pointer">Email</a></th>
+      <th (click)="sortField = 'firstName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"><a style="cursor: pointer">First Name</a></th>
+      <th (click)="sortField = 'middleName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"><a style="cursor: pointer">Middel Name</a></th>
+      <th (click)="sortField = 'lastName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"><a style="cursor: pointer">Last Name</a></th>
+      <th (click)="sortField = 'monthlyBudget'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"><a style="cursor: pointer">Monthly Budgets</a></th>
+      <th (click)="sortField = 'account.status'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"><a style="cursor: pointer">View&Status</a></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let employee of pagedEmployees | filterEmployee: filterText | orderBy: sortField: sortDirection" >
+    <tr *ngFor="let employee of pagedEmployees | filterEmployee: filterText | orderBy: sortField: sortDirection">
       <td>{{employee.account.userName}}</td>
       <td>{{ employee.firstName }}</td>
       <td>{{ employee.middleName }}</td>
@@ -46,11 +56,11 @@
 
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click) = "pageTop()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'"><<</a></li>
-    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click) = "pageBack()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'">Previous</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click)="pageTop()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'"><<</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click)="pageBack()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'">Previous</a></li>
     <li class="page-item epe-list-page" style="cursor: pointer" *ngFor="let page of pages" (click)="changePage(page)" [ngClass]="{'active':currentPage === page}"><a class="page-link">{{ page }}</a></li>
-    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click) = "pageForward()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">Next</a></li>
-    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click) = "pageEnd()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">>></a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click)="pageForward()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">Next</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click)="pageEnd()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">>></a></li>
   </ul>
 </nav>
 <ng-template #elseBlock>
