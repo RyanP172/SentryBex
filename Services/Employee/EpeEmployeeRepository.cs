@@ -299,50 +299,66 @@ namespace SentryBex.Services
         public async Task<bool> SaveCreatedEmployeeAsync(EpeEmployeeCreateDto _employee)
         {
             bool retVal = false;
-            long accountFk = _context.UsrAccounts.Max(e => e.Id);
+
+            
             using (_context)
             {
-                EpeEmployee employee = new EpeEmployee
+                UsrAccount account = new UsrAccount
                 {
-                    FirstName = _employee.FirstName,
-                    LastName = _employee.LastName,
-                    MiddleName = _employee.MiddleName,
-                    Dob = _employee.Dob,
-                    Code = _employee.Code,
-                    IsContractor = _employee.IsContractor,
-                    ContractorTypeFk = _employee.ContractorTypeFk,
-                    DefaultShowroomFk = _employee.DefaultShowroomFk,
-                    MaxLeadCount = _employee.MaxLeadCount,
-                    MonthlyBudget = _employee.MonthlyBudget,
-                    AccountFk = accountFk,
-
+                    UserName = _employee.Email,
+                    Password = _employee.Password,
+                    SamAccountName = _employee.SamAccountName,
+                    PasswordSalt = _employee.PasswordSalt,
+                    Status = _employee.Status,
                 };
-            
-                await _context.EpeEmployees.AddAsync(employee);
-                if(await _context.SaveChangesAsync() > 0)
+                await _context.UsrAccounts.AddRangeAsync(account);
+                if (await _context.SaveChangesAsync() > 0)
                 {
-                    var showroomLink = new EpeEmployeeShowroomLink
+                    
+                    EpeEmployee employee = new EpeEmployee
                     {
-                        ShowroomFk = _employee.DefaultShowroomFk,
-                        EmployeeFk = _employee.CompanyId
-                    };
-                    await _context.EpeEmployeeShowroomLinks.AddRangeAsync(showroomLink);
-                    var companyLink = new EpeEmployeeCompanyLink
-                    {
-                        CompanyFk = _employee.CompanyId,
-                        EmployeeFk = employee.Id
-                    };
-                    await _context.EpeEmployeeCompanyLinks.AddRangeAsync(companyLink);
-                    var groupLink = new EpeEmployeeGroupLink
-                    {
-                        EmployeeFk = employee.Id,
-                        GroupFk = 4,
+                        FirstName = _employee.FirstName,
+                        LastName = _employee.LastName,
+                        MiddleName = _employee.MiddleName,
+                        Dob = _employee.Dob,
+                        Code = _employee.Code,
+                        IsContractor = _employee.IsContractor,
+                        ContractorTypeFk = _employee.ContractorTypeFk,
+                        DefaultShowroomFk = _employee.DefaultShowroomFk,
+                        MaxLeadCount = _employee.MaxLeadCount,
+                        MonthlyBudget = _employee.MonthlyBudget,
+                        AccountFk = account.Id,
 
                     };
-                    await _context.EpeEmployeeGroupLinks.AddRangeAsync(groupLink);
-                    if (await _context.SaveChangesAsync() > 0) retVal = true;
-                
+
+                    await _context.EpeEmployees.AddAsync(employee);
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        var showroomLink = new EpeEmployeeShowroomLink
+                        {
+                            ShowroomFk = _employee.DefaultShowroomFk,
+                            EmployeeFk = _employee.CompanyId
+                        };
+                        await _context.EpeEmployeeShowroomLinks.AddRangeAsync(showroomLink);
+                        var companyLink = new EpeEmployeeCompanyLink
+                        {
+                            CompanyFk = _employee.CompanyId,
+                            EmployeeFk = employee.Id
+                        };
+                        await _context.EpeEmployeeCompanyLinks.AddRangeAsync(companyLink);
+                        var groupLink = new EpeEmployeeGroupLink
+                        {
+                            EmployeeFk = employee.Id,
+                            GroupFk = 4,
+
+                        };
+                        await _context.EpeEmployeeGroupLinks.AddRangeAsync(groupLink);
+                        if (await _context.SaveChangesAsync() > 0) retVal = true;
+
+                    }
                 }
+
+                    
             }
             return retVal;
 

@@ -21,7 +21,7 @@ namespace SentryBex.Services.Account
 
 
 
-        public async Task<bool> CreateAccountAsync(UsrAccountCreateDto createAccountBody)
+        public async Task<bool> CreateAccountAsync(EpeEmployeeCreateDto createAccountBody)
         {
             bool retVal = false;
             using (_appContext)
@@ -47,7 +47,7 @@ namespace SentryBex.Services.Account
             return await _appContext.UsrAccounts.ToListAsync();
         }
 
-        public async Task<bool> CheckEmailAccountExist(UsrAccountCreateDto createAccountBody)
+        public async Task<bool> CheckEmailAccountExist(EpeEmployeeCreateDto createAccountBody)
         {
             
             UserAccount? account = await _appContext.UsrAccounts.FirstOrDefaultAsync(a => a.UserName == createAccountBody.Email);

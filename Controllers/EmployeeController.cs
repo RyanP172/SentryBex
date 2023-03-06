@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SentryBex.Dtos;
 using SentryBex.Models.EpeSchemes;
 using SentryBex.Services;
+using SentryBex.Services.Account;
 using SentryBex.Services.Logger;
 using SentryBex.Utilitty;
 
@@ -28,15 +29,19 @@ namespace SentryBex.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEpeEmployeeRepository _epeEmployeeRepository;
+
         private readonly ILoggerRepository _loggerRepository;
+        private readonly IAccountRepository _accountRepository;
 
         public EmployeeController(
             IEpeEmployeeRepository epeEmployeeRepository,
-            ILoggerRepository loggerRepository
+            ILoggerRepository loggerRepository,
+            IAccountRepository accountRepository
             )
         {
             _epeEmployeeRepository = epeEmployeeRepository ?? throw new ArgumentNullException(nameof(epeEmployeeRepository));
             _loggerRepository = loggerRepository ?? throw new ArgumentNullException(nameof(loggerRepository));
+            _accountRepository = accountRepository;
         }
 
 
@@ -249,6 +254,10 @@ namespace SentryBex.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewEmployee([FromBody] EpeEmployeeCreateDto createEmployee)
         {
+            if (await _accountRepository.CheckEmailAccountExist(createEmployee))
+            {
+                return BadRequest(new { status = 400, message = $"Account email {createEmployee.Email} already existed" });
+            }
             var employee = await _epeEmployeeRepository.SaveCreatedEmployeeAsync(createEmployee);
             return Ok(employee);
         }
