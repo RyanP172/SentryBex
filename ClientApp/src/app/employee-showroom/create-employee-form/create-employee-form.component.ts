@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./create-employee-form.component.css']
 })
 export class CreateEmployeeFormComponent {
+  createEmployee() {
 
+  }
 }

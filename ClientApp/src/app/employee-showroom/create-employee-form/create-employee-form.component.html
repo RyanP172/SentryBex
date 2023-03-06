@@ -1,1 +1,53 @@
-<p>create-employee-form works!</p>
+<div class="container my-5">
+  <h1 class="mb-3" id="tableLabel">View/Edit Employee</h1>
+  <div class="row">
+    <div class="col-12">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input name="userEmail" type="email" class="form-control" id="user-email" >
+      </div>
+      <form #form="ngForm" (ngSubmit)="createEmployee()">
+        <div class="col-6">
+
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="createEmployee.firstName">
+          </div>
+          <div class="mb-3">
+            <label for="middleName" class="form-label">Middle Name</label>
+            <input name="middle" type="text" class="form-control" id="middle-name" [(ngModel)]="employee.middleName">
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+          </div>
+          <div class="mb-3">
+            <label for="contractor" class="form-label">Is Contractor?</label>
+            <select name="contractor" [(ngModel)]="employee.isContractor" class="form-select" aria-label="Default select example" id="is-contractor">
+              <option [ngValue]="false">false</option>
+              <option [ngValue]="true">true</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="monthlyBudget" class="form-label">Monthly Budget</label>
+            <input name="budget" type="number" class="form-control" id="monthly-budget" [(ngModel)]="employee.monthlyBudget">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <div class=" mb-3" *ngIf="statusDesc.status == 400">
+            <label for="state" class="form-label"></label>
+            <div class="alert alert-danger form-label" role="alert">
+              Error! {{statusDesc.description}}
+            </div>
+          </div>
+          <div class=" mb-3" *ngIf="statusDesc.status == 200">
+            <label for="state" class="form-label"></label>
+            <div class="alert alert-success" role="alert">
+              {{statusDesc.description}}
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
