@@ -1,0 +1,137 @@
+<nav>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation" *ngFor="let menu of menuList">
+      <button (click)="openMenuList(menu.id)" class="nav-link" [ngClass]="{'active':selectedList === menu.id}" id="home-tab" data-bs-toggle="tab" type="button" role="tab" [attr.aria-selected]="menu.id === 1 ? true : false">{{menu.title}}</button>
+    </li>
+  </ul>
+</nav>
+
+<ng-container *ngIf="selectedList === 1">
+  <div class="container my-5">
+    <h1 class="mb-3" id="tableLabel">View/Edit Employee</h1>
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input name="userEmail" type="email" class="form-control" id="user-email" [(ngModel)]="employee.account.userName" disabled>
+        </div>
+        <form #form="ngForm" (ngSubmit)="updateEmployee()">
+          <div class="col-6">
+
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="employee.firstName">
+            </div>
+            <div class="mb-3">
+              <label for="middleName" class="form-label">Middle Name</label>
+              <input name="middle" type="text" class="form-control" id="middle-name" [(ngModel)]="employee.middleName">
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+            </div>
+            <div class="mb-3">
+              <label for="contractor" class="form-label">Is Contractor?</label>
+              <select name="contractor" [(ngModel)]="employee.isContractor" class="form-select" aria-label="Default select example" id="is-contractor">
+                <option [ngValue]="false">false</option>
+                <option [ngValue]="true">true</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="monthlyBudget" class="form-label">Monthly Budget</label>
+              <input name="budget" type="number" class="form-control" id="monthly-budget" [(ngModel)]="employee.monthlyBudget">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <div class=" mb-3" *ngIf="statusDesc.status == 400">
+              <label for="state" class="form-label"></label>
+              <div class="alert alert-danger form-label" role="alert">
+                Error! {{statusDesc.description}}
+              </div>
+            </div>
+            <div class=" mb-3" *ngIf="statusDesc.status == 200">
+              <label for="state" class="form-label"></label>
+              <div class="alert alert-success" role="alert">
+                {{statusDesc.description}}
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="selectedList === 2">
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="exchangeBoxItem.itemsFromAssignedRooms.length > 0; else elseBlock">
+    <thead>
+      <tr>
+        <th>Assigned Show Room Name(s)</th>
+        <th>Shop Code</th>
+        <th>Monthly Budget</th>
+        <th>Order Prefix</th>
+        <th>State</th>
+        <th>Load Day(s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let showRoom of exchangeBoxItem.itemsFromAssignedRooms">
+        <td>{{ showRoom.name }}</td>
+        <td>{{ showRoom.shopCode }}</td>
+        <td>{{ showRoom.monthlyBudget }}</td>
+        <td>{{ showRoom.orderPrefix }}</td>
+        <td>{{ showRoom.state }}</td>
+        <td>{{ showRoom.loadDay }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- When no show room assign to this user -->
+  <ng-template #elseBlock><br /><b>No Show room record for this employee</b><br /><br /></ng-template>
+  <app-exchange-box [assignedRooms]="this.exchangeBoxItem.itemsFromAssignedRooms"
+                    [candidateRooms]="this.exchangeBoxItem.itemsFromCandidateRooms"
+                    [checkboxTitle]="'Show Rooms'"
+                    [exchangBoxType] = "selectedList"
+                    (removeRooms)="removeRoomsFromUserSubmit()"
+                    (assignRooms)="assignRoomsToUserSubmit()">
+  </app-exchange-box>
+
+</ng-container>
+
+<ng-container *ngIf="selectedList === 3">
+  <div *ngIf="employee.netUser.id !== null && employee.netUser.id !== ''; else noLogin">
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="employee.permissions.length > 0; else elseBlock">
+      <thead>
+        <tr>
+          <th>Current Registed Role(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of exchangeBoxItem.itemsFromAssignedRoles">
+          <td>{{ role.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <app-exchange-box
+                      [assignedRoles]="this.exchangeBoxItem.itemsFromAssignedRoles"
+                      [candidateRoles]="this.exchangeBoxItem.itemsFromCandidateRoles"
+                      [checkboxTitle]="'Roles'"
+                      [exchangBoxType] = "selectedList"
+                      (removeRoles)="removeRolesFromUserSubmit()"
+                      (assignRoles)="assignRolesToUserSubmit()">
+                    >
+    </app-exchange-box>
+  </div>
+  <!-- When no show room assign to this user -->
+  <ng-template #elseBlock>
+    <div class="mb-3">
+      <b>No role assigned to this employee</b>
+    </div>
+  </ng-template>
+</ng-container>
+<!-- When user haven't login for first time' -->
+<ng-template #noLogin>
+  <br />
+  <div class="alert alert-danger" role="alert">
+    This user has not login yet. Please ask the user to login for activating account
+  </div>
+</ng-template>

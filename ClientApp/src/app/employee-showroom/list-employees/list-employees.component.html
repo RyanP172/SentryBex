@@ -1,0 +1,63 @@
+<h1 id="tableLabel">Employees</h1>
+
+<div class="spinner-grow" role="status" *ngIf="!employees">
+  <span class="sr-only">Loading...</span>
+</div>
+
+
+<div class="input-group">
+  <input  type="text" placeholder="Search the employees by typing their Firstname..." class="form-control rounded" aria-label="Search" aria-describedby="search-addon" [(ngModel)] = "filterText"/>
+  <button class="btn btn-secondary" disabled><fa-icon [icon]="glass"></fa-icon></button>
+</div>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="employees else elseBlock" >
+  <thead class="employeeList">
+    <tr>
+      <th (click)="sortField = 'account.userName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Email</a></th>
+      <th (click)="sortField = 'firstName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">First Name</a></th>
+      <th (click)="sortField = 'middleName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Middel Name</a></th>
+      <th (click)="sortField = 'lastName'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Last Name</a></th>
+      <th (click)="sortField = 'monthlyBudget'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">Monthly Budgets</a></th>
+      <th (click)="sortField = 'account.status'; sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'" ><a style="cursor: pointer">View&Status</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of pagedEmployees | filterEmployee: filterText | orderBy: sortField: sortDirection" >
+      <td>{{employee.account.userName}}</td>
+      <td>{{ employee.firstName }}</td>
+      <td>{{ employee.middleName }}</td>
+      <td>{{ employee.lastName }}</td>
+      <td>{{ employee.monthlyBudget }}</td>
+      <td>
+        <a class="edit-icon" [routerLink]="['/fetch-employee-showroom', 'employees', 'edit', employee.id]">
+          <fa-icon [icon]="faUserPen"></fa-icon>
+        </a>
+        |
+        <a class="active-icon" style="cursor: pointer" *ngIf="employee.account.status == 'A'">
+          <fa-icon [icon]="faCheck" (click)="changeEpeEmployeeStatus(employee.id, 'I')"></fa-icon>
+        </a>
+        <a class="inactive-icon" style="cursor: pointer" *ngIf="employee.account.status == 'I'">
+          <fa-icon [icon]=" faXmark" (click)="changeEpeEmployeeStatus(employee.id, 'A')"></fa-icon>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click) = "pageTop()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'"><<</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click) = "pageBack()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'">Previous</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" *ngFor="let page of pages" (click)="changePage(page)" [ngClass]="{'active':currentPage === page}"><a class="page-link">{{ page }}</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click) = "pageForward()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">Next</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click) = "pageEnd()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">>></a></li>
+  </ul>
+</nav>
+<ng-template #elseBlock>
+  <div class="mb-3">
+    <b>No role assigned to this employee</b>
+  </div>
+</ng-template>
+
+
+

@@ -1,0 +1,64 @@
+<div class="container my-5">
+  <h1 class="mb-3" id="tableLabel">View/Edit Show Room</h1>
+  <div class="row">
+    <div class="col-6">
+      <form #form="ngForm" (ngSubmit)="updateShowRoom()">
+        <div class="col-6">
+          <div class="mb-3">
+            <label for="roomName" class="form-label">Show Room Name</label>
+            <input name="showroomName" type="text" class="form-control" id="room-name" [(ngModel)]="showRoom.name">
+          </div>
+          <div class="mb-3">
+            <label for="shopCode" class="form-label">Shop Code</label>
+            <input name="code" type="text" class="form-control" id="shop-code" [(ngModel)]="showRoom.shopCode">
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Order Prefix</label>
+            <input name="last" type="text" class="form-control" id="order-prefix" [(ngModel)]="showRoom.orderPrefix">
+          </div>
+          <div class="mb-3">
+            <label for="monthlyBudget" class="form-label">Monthly Budget</label>
+            <input name="budget" type="number" class="form-control" id="monthly-budget" [(ngModel)]="showRoom.monthlyBudget">
+          </div>
+          <div class="mb-3">
+            <label for="loadDay" class="form-label">Load Day(s)</label>
+            <input name="day" type="text" class="form-control" id="load-day" [(ngModel)]="showRoom.loadDay">
+          </div>
+          <div class="mb-3">
+            <label for="state" class="form-label">State</label>
+            <input name="state" type="text" class="form-control" id="au-state" [(ngModel)]="showRoom.state" maxlength="8">
+          </div>
+          <div class="mb-3">
+            <label for="defaultConsultantFk" class="form-label">Default Consultant</label>
+            <!--<input name="consultantFk" type="text" class="form-control" id="def-cons-key" [(ngModel)]="showRoom.defaultConsultantFk" maxlength="8">-->
+            <div class="form-floating">
+              <select for="defaultConsultantFk" name="consultantFk" class="form-select" id="floatingSelect" aria-label="Floating label select example" [(ngModel)]="showRoom.defaultConsultantFk" >
+                <option aria-label="Default select example" *ngFor="let employee of epeEmployee" [value]="employee.id" [selected] ="employee.id === showRoom.defaultConsultantFk">{{employee.firstName + " " + employee.lastName}}</option>
+              </select>
+              <label for="floatingSelect">Current Default Consultant</label>
+              
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+        <div class=" mb-3" *ngIf="statusDesc.status == 400">
+          <label for="state" class="form-label"></label>
+          <div class="alert alert-danger form-label" role="alert">
+            Error! {{statusDesc.description}}
+          </div>
+        </div>
+        <div class=" mb-3" *ngIf="statusDesc.status == 200">
+          <label for="state" class="form-label"></label>
+          <div class="alert alert-success" role="alert">
+            Success! Redirecting
+          </div>
+        </div>
+
+      </form>
+      
+      </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,43 @@
+<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+
+<div class="form-group">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="inputEmail" class="sr-only">User Name</label>
+      <input name="userEmail" type="email" formControlName="email" id="inputEmail" class="form-control" placeholder="Email address" [(ngModel)]="loginBody.email" required email autofocus>
+    </div>
+    <div class="mb-3">
+      <label name="passWord" for="inputPassword" class="sr-only">Password</label>
+      <input type="password" formControlName="password" id="inputPassword" class="form-control" placeholder="Password" required [(ngModel)]="loginBody.password">
+    </div>
+    <div class=" mb-3" *ngIf="statusDesc.status == 200">
+      <label for="state" class="form-label"></label>
+      <div class="alert alert-success" role="alert">
+        {{message}}
+      </div>
+    </div>
+    <div class=" mb-3" *ngIf="!validEmail">
+      <label for="state" class="form-label"></label>
+      <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    </div>
+    <div class=" mb-3" *ngIf="!validLogin">
+      <label for="state" class="form-label"></label>
+      <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    </div>
+    <div class=" mb-3" *ngIf="!validPassword">
+      <label for="state" class="form-label"></label>
+      <div class="alert alert-danger" role="alert">
+        {{message}}
+      </div>
+    </div>
+    <button [disabled]="loading" class="btn btn-primary">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Login
+    </button>
+  </form>
+</div>

@@ -1,0 +1,44 @@
+<h1 id="tableLabel">Show Rooms</h1>
+
+<div class="spinner-grow" role="status" *ngIf="!showRooms">
+  <span class="sr-only">Loading...</span>
+</div>
+
+
+<div class="input-group">
+  <input type="text" placeholder="Search show rooms by room name..." class="form-control rounded" aria-label="Search" aria-describedby="search-addon" [(ngModel)] = "filterText" />
+  <button class="btn btn-secondary" disabled><fa-icon [icon]="glass"></fa-icon></button>
+</div>
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="showRooms">
+  <thead>
+    <tr>
+      <th>Show Room Name</th>
+      <th>Shop Code</th>
+      <th>Monthly Budget</th>
+      <th>Order Prefix</th>
+      <th>State</th>
+      <th>Load Day(s)</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let showRoom of pagedShowRooms | filterShowroom: filterText">
+      <td>{{ showRoom.name }}</td>
+      <td>{{ showRoom.shopCode }}</td>
+      <td>{{ showRoom.monthlyBudget }}</td>
+      <td>{{ showRoom.orderPrefix }}</td>
+      <td>{{ showRoom.state }}</td>
+      <td>{{ showRoom.loadDay }}</td>
+      <td><a class="edit-icon" [routerLink] = "['/fetch-employee-showroom', 'showrooms', 'edit', showRoom.id]"><fa-icon [icon]="faShowRoomPen"></fa-icon></a></td>
+    </tr>
+  </tbody>
+</table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click)="pageTop()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'"><<</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === 1}"><a class="page-link" (click)="pageBack()" [attr.aria-disabled]="currentPage === 1 ? 'true' : 'false'">Previous</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" *ngFor="let page of pages" (click)="changePage(page)" [ngClass]="{'active':currentPage === page}"><a class="page-link">{{ page }}</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click)="pageForward()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">Next</a></li>
+    <li class="page-item epe-list-page" style="cursor: pointer" [ngClass]="{'disabled':currentPage === totalPages}"><a class="page-link" (click)="pageEnd()" [attr.aria-disabled]="currentPage === totalPages ? 'true' : 'false'">>></a></li>
+  </ul>
+</nav>

@@ -1,0 +1,38 @@
+<h1 id="tableLabel">Role Management</h1>
+
+<div class="spinner-grow" role="status" *ngIf="!roles">
+  <span class="sr-only"></span>
+</div>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="roles">
+  <thead>
+    <tr>
+      <th>Role Name</th>
+      <th *ngIf="ticked === false">View & Edit</th>
+      <th *ngIf="ticked === true"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let role of roles; let i = index">
+      <td *ngIf="ticked === false">{{role.name}}</td>
+      <!--After click edit icon-->
+      <td   *ngIf="ticked === true && formIndex === i">
+        <form #form="ngForm" (ngSubmit)="ChangeRoleName(form, i, role.id)">
+          <div class="input-group mb-3">
+            <button class="btn btn-outline-primary" type="button" id="button-addon" (click)="clicked(false, i)"><-</button>
+            <input name="roleNameForChange" pattern="[a-zA-Z]+" type="text" class="form-control" placeholder="Type in the name you want to change..." [(ngModel)]="role.name " required>
+            <button class="btn btn-outline-primary" type="submit" id="button-addon">Change Role Name</button>
+          </div>
+        </form>
+      </td>
+      <td *ngIf="ticked === false"><a class="edit-icon" (click)="clicked(true, i)" style="cursor: pointer"><fa-icon [icon]="faPen" ></fa-icon></a> | <a class="edit-icon" [routerLink]="['/fetch-role', 'roles', 'edit', role.id]"><fa-icon [icon]="userGroup"></fa-icon></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<form *ngIf="ticked === false" #form="ngForm" (ngSubmit)="AddNewRole()">
+<div class="input-group mb-3">
+  <button class="btn btn-outline-primary" type="submit" id="button-addon" (onClick)="AddNewRole()">+</button>
+  <input name="roleName" [(ngModel)]="inputValue" type="text" class="form-control" placeholder="Give your new role a name..." aria-label="Example text with button addon" aria-describedby="button-addon1">
+</div>
+</form>

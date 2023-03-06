@@ -1,0 +1,159 @@
+<div class="row" [ngSwitch]="exchangBoxType">
+  <ng-container *ngSwitchCase="'2'">
+    <div class="col-3 ">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <td>Assigned {{checkboxTitle}}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of assignedRooms">
+            <td><input type="checkbox" [(ngModel)]="item.selected">&nbsp;{{ item.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-1 ">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="align-middle">
+            <td class="align-middle">
+              <p><button class="btn btn-primary" (click)="this.assignRooms.emit()"><-</button></p>
+              <p><button class="btn btn-primary" (click)="this.removeRooms.emit()">-></button></p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3 " style="height:300px;overflow-y:auto">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <td>Candidate {{checkboxTitle}}</td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of candidateRooms ">
+            <td><input type="checkbox" [(ngModel)]="item.selected">&nbsp;{{ item.name }}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'3'">
+    <div class="col-3 ">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <td>Assigned {{checkboxTitle}}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of assignedRoles">
+            <td><input type="checkbox" [(ngModel)]="item.selected">&nbsp;{{ item.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-1 ">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="align-middle">
+            <td class="align-middle">
+              <p><button class="btn btn-primary" (click)="this.assignRoles.emit()"><-</button></p>
+              <p><button class="btn btn-primary" (click)="this.removeRoles.emit()">-></button></p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3 " style="height:300px;overflow-y:auto">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <td>Candidate {{checkboxTitle}}</td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of candidateRoles ">
+            <td><input type="checkbox" [(ngModel)]="item.selected">&nbsp;{{ item.name }}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'4'">
+    <div class="col-5 ">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Assigned {{checkboxTitle}} </th>
+            <th><app-input-filter [placeHolder]="placeHolder" (messageEvent)="receiveFilterForAssignedEmployee($event)"></app-input-filter></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of assignedUsers | filterEmail: filterTextForAssignedEmployees">
+            <td><input type="checkbox" [(ngModel)]="item.selected">&nbsp;{{ item.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-1 ">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th><br /><p></p></th>
+          </tr>
+          
+        </thead>
+        <tbody>
+          <tr class="align-middle">
+            <td class="align-middle">
+              <p><button class="btn btn-primary" (click)="this.assignUsers.emit()"><-</button></p>
+              <p><button class="btn btn-primary" (click)="this.removeUsers.emit()">-></button></p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-5 " style="height:300px;overflow-y:auto">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Candidate {{checkboxTitle}}</th>
+            <th><app-input-filter [placeHolder]="placeHolder" (messageEvent)="receiveFilterForCandidateEmployee($event)"></app-input-filter></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of candidateUsers | filterEmail: filterTextForCandidateEmployees">
+            <td><input type="checkbox" [(ngModel)]="item.selected">&nbsp;{{ item.email }}</td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    <p>Unknown type: {{ exchangBoxType }}</p>
+  </ng-container>
+</div>
+
