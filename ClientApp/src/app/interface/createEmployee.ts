@@ -1,4 +1,4 @@
-export interface CreateEmployer {
+export interface CreateEmployee {
   firstName: string
   middleName: string
   lastName: string

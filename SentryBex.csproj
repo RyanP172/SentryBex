@@ -320,7 +320,7 @@
     <None Remove="ClientApp\.angular\cache\15.1.4\babel-webpack\fee987732466b8d14d07c28620eddb9207bafc50c2c7da26debf89553abd1ac1.json" />
     <None Remove="ClientApp\.angular\cache\15.1.4\babel-webpack\ff49ad0d8d4cf24727c1517c6f57cd4b8200fa3114049b24a6eddd3aa85bd003.json" />
     <None Remove="ClientApp\src\app\employee-showroom\list-employees\table-orderby.pipe.ts" />
-    <None Remove="ClientApp\src\app\interface\createEmployer.ts" />
+    <None Remove="ClientApp\src\app\interface\createEmployee.ts" />
     <None Remove="ClientApp\src\app\interface\exchangeBox.ts" />
     <None Remove="ClientApp\src\app\interface\exchangeBoxUser.ts" />
     <None Remove="ClientApp\src\app\interface\loginbody.ts" />
@@ -336,7 +336,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\employee-showroom\list-employees\table-orderby.pipe.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interface\exchangeBox.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interface\exchangeBoxUser.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\interface\createEmployer.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\interface\createEmployee.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interface\loginbody.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interface\NetUser.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\role\edit-role\email-filter.ts" />
