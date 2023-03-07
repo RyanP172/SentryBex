@@ -11,8 +11,8 @@ export interface CreateEmployee {
   monthlyBudget: number
   companyId: number
   email: string
-  samaccountname: string
+  samAccount: string
   password: string
-  passwordsalt: string
+  passwordSalt: string
   status: string
 }
