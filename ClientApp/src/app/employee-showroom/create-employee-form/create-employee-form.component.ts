@@ -33,16 +33,26 @@ export class CreateEmployeeFormComponent implements OnInit {
   //}
 
   createEmployeeOnSubmit() {
-    //const employee: CreateEmployee = {
-    //  firstName: this.employeeForm.value.firstName,
-    //  middleName: this.employeeForm.value.email,
-    //  lastName: this.employeeForm.value.phone,
-    //  dob: this.employeeForm.value.skills
-    //};
 
-    //this.employeeShowroomService.createEmployee(this.employee)
+    if (confirm('Please confirm the information again'))
+    {
+      console.log("employee info", this.employee);
+      this.employeeShowroomService.createEmployee(this.employee).subscribe({
+        next: (response) => {
+          console.log('Employee created successfully:', response);
+          alert('Employee created successfully')
+          this.router.navigate(['/fetch-employee-showroom/employees/']);
 
-    console.log("employee info", this.employee)
+        },
+        error: msg => {
+          console.log(msg)
+          this.statusDesc.status = msg.error.status;
+          this.statusDesc.description = msg.error.message + ". There is an error while creating a new employee";
+          console.log(this.statusDesc)
+        }
+      });
+    }
+
   }
 
   onCancel() {
@@ -63,9 +73,14 @@ export class CreateEmployeeFormComponent implements OnInit {
     monthlyBudget: 5000,
     companyId: 3,
     email: '',
-    samAccount: '',
+    samAccountName: '',
     password: '',
     passwordSalt: '',
     status: '',
+  }
+
+  statusDesc: any = {
+    status: 0,
+    description: ''
   }
 }

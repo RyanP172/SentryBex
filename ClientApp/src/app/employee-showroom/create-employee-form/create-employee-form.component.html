@@ -8,15 +8,24 @@
         <div class="col-6">
           <div class="mb-2">
             <label for="email" class="form-label">Email</label>
-            <input name="userEmail" type="email" class="form-control" id="user-email" [(ngModel)]="employee.email">
+            <input name="userEmail"
+                   type="email"
+                   class="form-control"
+                   id="user-email"
+                   required
+                   [(ngModel)]="employee.email"
+                   [formControl]="emailControl">
+            <div *ngIf="emailControl.errors?.emailExists" class="alert alert-danger">
+              Email already exists.
+            </div>
             <!--<input name="userEmail" type="email" class="form-control" id="user-email" [formControl]="emailControl">-->
             <!--        <div *ngIf="emailControl.errors?.emailExists" class="alert alert-danger">
-              Account's email already exists.
-            </div>-->
+    Account's email already exists.
+  </div>-->
           </div>
           <div class="mb-2">
             <label for="firstName" class="form-label">First Name</label>
-            <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="employee.firstName">
+            <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="employee.firstName" required>
           </div>
           <div class="mb-2">
             <label for="middleName" class="form-label">Middle Name</label>
@@ -28,7 +37,7 @@
           </div>
           <div class="mb-2">
             <label for="samAccount" class="form-label">Sam Account</label>
-            <input name="sam" type="text" class="form-control" id="sam-account" [(ngModel)]="employee.samAccount">
+            <input name="sam" type="text" class="form-control" id="sam-account" [(ngModel)]="employee.samAccountName">
           </div>
           <div class="mb-2">
             <label for="password" class="form-label">Password</label>
@@ -81,6 +90,18 @@
           <div class="button-container">
             <button type="submit" class="btn btn-primary">Save Changes</button>
             <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          </div>
+          <div class=" mb-3" *ngIf="statusDesc.status == 400">
+            <label for="state" class="form-label"></label>
+            <div class="alert alert-danger form-label" role="alert">
+              Error! {{statusDesc.description}}
+            </div>
+          </div>
+          <div class=" mb-3" *ngIf="statusDesc.status == 200">
+            <label for="state" class="form-label"></label>
+            <div class="alert alert-success" role="alert">
+              {{statusDesc.description}}
+            </div>
           </div>
         </div>
       </form>

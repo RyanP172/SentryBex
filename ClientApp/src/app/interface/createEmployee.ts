@@ -2,7 +2,7 @@ export interface CreateEmployee {
   firstName: string
   middleName: string
   lastName: string
-  dob: string
+  dob: string | null
   code: string
   isContractor: boolean
   contractorTypeId: string
@@ -11,7 +11,7 @@ export interface CreateEmployee {
   monthlyBudget: number
   companyId: number
   email: string
-  samAccount: string
+  samAccountName: string
   password: string
   passwordSalt: string
   status: string

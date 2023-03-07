@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { CreateEmployee } from '../../interface/createEmployee';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +24,11 @@ export class EmployeeShowroomService {
   }
 
   createEmployee(createEmployee: CreateEmployee): Observable<CreateEmployee> {
-    return this.http.post<CreateEmployee>(`${this.apiUrl}/api/employee/`, createEmployee);
+    const httpOptions: Object = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      responseType: 'text'
+    };    
+    return this.http.post<CreateEmployee>(`${this.apiUrl}/api/employee`, createEmployee, httpOptions);
   }
 
   getEmployees(): Observable<Employee[]> {
