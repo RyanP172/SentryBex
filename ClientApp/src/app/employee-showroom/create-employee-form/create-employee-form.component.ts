@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CreateEmployee } from '../../interface/createEmployee';
 import { Router } from '@angular/router';
-import { NgForm , FormGroup, FormBuilder, FormControl, Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, FormControl    } from '@angular/forms';
+import { Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { EmployeeShowroomService } from '../../service/employee-showroom/employee-showroom.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { EmployeeShowroomService } from '../../service/employee-showroom/employe
   styleUrls: ['./create-employee-form.component.css']
 })
 export class CreateEmployeeFormComponent implements OnInit {
-
+  
   statusDesc: any = {
     status: 0,
     description: ''
@@ -19,6 +20,7 @@ export class CreateEmployeeFormComponent implements OnInit {
     private router: Router,
     private employeeShowroomService: EmployeeShowroomService,
     private formBuilder: FormBuilder,
+    
 
   ) { }
   ngOnInit(): void {
@@ -55,7 +57,7 @@ export class CreateEmployeeFormComponent implements OnInit {
   }
 
   onClear() {
-
+    
   }
 
   employee: CreateEmployee = {
@@ -75,7 +77,7 @@ export class CreateEmployeeFormComponent implements OnInit {
     samAccountName: '',
     password: '',
     passwordSalt: '',
-    status: '',
+    status: 'A',
   }
 
 

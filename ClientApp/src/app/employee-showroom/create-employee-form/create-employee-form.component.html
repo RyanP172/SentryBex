@@ -3,8 +3,7 @@
   <div class="row">
     <div class="col-12">
 
-
-      <form #form="ngForm" (ngSubmit)="createEmployeeOnSubmit()">
+      <form #f="ngForm" (ngSubmit)="createEmployeeOnSubmit()">
         <div class="col-6">
           <div class="mb-2">
             <label for="email" class="form-label">Email</label>
@@ -13,23 +12,22 @@
                    class="form-control"
                    id="user-email"
                    required
+                   email
                    [(ngModel)]="employee.email"
                    #email="ngModel">
+            <span class=" alert-danger" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
           </div>
-          <div *ngIf="email.invalid && (email.dirty || email.touched)"
-               class="alert-danger">
-            <div *ngIf="email.errors?.['required']">
-              Email is required.
-            </div>
-          </div>
-
-
-
-
-
           <div class="mb-2">
             <label for="firstName" class="form-label">First Name</label>
-            <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="employee.firstName" required>
+            <input
+                   name="first"
+                   type="text"
+                   class="form-control"
+                   id="first-name"
+                   [(ngModel)]="employee.firstName"
+                   required
+                   #firstName ="ngModel">
+            <span  class="help-block alert-danger" *ngIf="!firstName.valid && firstName.touched">First Name is required!</span>
           </div>
           <div class="mb-2">
             <label for="middleName" class="form-label">Middle Name</label>
@@ -37,11 +35,25 @@
           </div>
           <div class="mb-2">
             <label for="lastName" class="form-label">Last Name</label>
-            <input name="last" type="text" class="form-control" id="last-name" [(ngModel)]="employee.lastName">
+            <input name="last"
+                   type="text"
+                   class="form-control"
+                   id="last-name"
+                   [(ngModel)]="employee.lastName"
+                   required
+                   #lastName="ngModel">
+            <span class="help-block alert-danger" *ngIf="!lastName.valid && lastName.touched">Last Name is required!</span>
           </div>
           <div class="mb-2">
             <label for="samAccount" class="form-label">Sam Account</label>
-            <input name="sam" type="text" class="form-control" id="sam-account" [(ngModel)]="employee.samAccountName">
+            <input name="sam"
+                   type="text"
+                   class="form-control"
+                   id="sam-account"
+                   [(ngModel)]="employee.samAccountName"
+                   required
+                   #samAccount="ngModel">
+            <span class="help-block alert-danger" *ngIf="!samAccount.valid && samAccount.touched">Sam Account is required!</span>
           </div>
           <div class="mb-2">
             <label for="password" class="form-label">Password</label>
@@ -53,7 +65,14 @@
           </div>
           <div class="mb-2">
             <label for="dob" class="form-label">Date of Birth</label>
-            <input name="dob" type="date" class="form-control" id="dob" [(ngModel)]="employee.dob">
+            <input name="dob"
+                   type="date"
+                   class="form-control"
+                   id="dob"
+                   [(ngModel)]="employee.dob"
+                   required
+                   #dob="ngModel">
+            <span class="help-block alert-danger" *ngIf="!dob.valid && dob.touched">Date of Birth is required!</span>
           </div>
           <div class="mb-2">
             <label for="code" class="form-label">Code</label>
@@ -92,9 +111,13 @@
           </div>
 
           <div class="button-container">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="!f.valid"
+                    >Save Changes</button>
             <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
-            <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
+            <button class="btn btn-primary" type="button" (click)="f.resetForm()" >Clear</button>
           </div>
           <div class=" mb-3" *ngIf="statusDesc.status == 400">
             <label for="state" class="form-label"></label>
