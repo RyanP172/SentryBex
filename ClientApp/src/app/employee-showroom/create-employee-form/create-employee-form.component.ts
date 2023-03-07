@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateEmployee } from '../../interface/createEmployee';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, FormControl, Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { NgForm , FormGroup, FormBuilder, FormControl, Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { EmployeeShowroomService } from '../../service/employee-showroom/employee-showroom.service';
 
 @Component({
@@ -11,11 +11,6 @@ import { EmployeeShowroomService } from '../../service/employee-showroom/employe
 })
 export class CreateEmployeeFormComponent implements OnInit {
 
-  //emailControl = new FormControl('', {
-  //  validators: [Validators.required, Validators.email],
-  //  asyncValidators: [this.emailExistsValidator()],
-  //  updateOn: 'blur'
-  //});
   statusDesc: any = {
     status: 0,
     description: ''
@@ -31,9 +26,6 @@ export class CreateEmployeeFormComponent implements OnInit {
   }
 
 
-  //emailExistsValidator(): AsyncValidatorFn {
-
-  //}
 
   createEmployeeOnSubmit() {
 
@@ -60,6 +52,10 @@ export class CreateEmployeeFormComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/fetch-employee-showroom/employees/']);
+  }
+
+  onClear() {
+
   }
 
   employee: CreateEmployee = {

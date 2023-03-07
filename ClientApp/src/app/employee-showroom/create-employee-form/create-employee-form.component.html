@@ -14,8 +14,19 @@
                    id="user-email"
                    required
                    [(ngModel)]="employee.email"
-                   >
+                   #email="ngModel">
           </div>
+          <div *ngIf="email.invalid && (email.dirty || email.touched)"
+               class="alert-danger">
+            <div *ngIf="email.errors?.['required']">
+              Email is required.
+            </div>
+          </div>
+
+
+
+
+
           <div class="mb-2">
             <label for="firstName" class="form-label">First Name</label>
             <input name="first" type="text" class="form-control" id="first-name" [(ngModel)]="employee.firstName" required>
@@ -83,6 +94,7 @@
           <div class="button-container">
             <button type="submit" class="btn btn-primary">Save Changes</button>
             <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
           </div>
           <div class=" mb-3" *ngIf="statusDesc.status == 400">
             <label for="state" class="form-label"></label>
