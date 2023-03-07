@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateEmployee } from '../../interface/createEmployee';
 import { Router } from '@angular/router';
-import { FormGroup,FormBuilder, FormControl, Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { EmployeeShowroomService } from '../../service/employee-showroom/employee-showroom.service';
 
 @Component({
@@ -16,7 +16,10 @@ export class CreateEmployeeFormComponent implements OnInit {
   //  asyncValidators: [this.emailExistsValidator()],
   //  updateOn: 'blur'
   //});
-
+  statusDesc: any = {
+    status: 0,
+    description: ''
+  }
   constructor(
     private router: Router,
     private employeeShowroomService: EmployeeShowroomService,
@@ -34,8 +37,7 @@ export class CreateEmployeeFormComponent implements OnInit {
 
   createEmployeeOnSubmit() {
 
-    if (confirm('Please confirm the information again'))
-    {
+    if (confirm('Please confirm the information again')) {
       console.log("employee info", this.employee);
       this.employeeShowroomService.createEmployee(this.employee).subscribe({
         next: (response) => {
@@ -45,9 +47,10 @@ export class CreateEmployeeFormComponent implements OnInit {
 
         },
         error: msg => {
-          console.log(msg)
+          console.log(msg.error);
           this.statusDesc.status = msg.error.status;
-          this.statusDesc.description = msg.error.message + ". There is an error while creating a new employee";
+          this.statusDesc.description = msg.error.message  + ". There is an error while creating a new employee";
+          alert(msg.error.message);
           console.log(this.statusDesc)
         }
       });
@@ -79,8 +82,5 @@ export class CreateEmployeeFormComponent implements OnInit {
     status: '',
   }
 
-  statusDesc: any = {
-    status: 0,
-    description: ''
-  }
+
 }

@@ -4,7 +4,7 @@
     <div class="col-12">
 
 
-      <form  #form="ngForm" (ngSubmit)="createEmployeeOnSubmit()">
+      <form #form="ngForm" (ngSubmit)="createEmployeeOnSubmit()">
         <div class="col-6">
           <div class="mb-2">
             <label for="email" class="form-label">Email</label>
@@ -14,14 +14,7 @@
                    id="user-email"
                    required
                    [(ngModel)]="employee.email"
-                   [formControl]="emailControl">
-            <div *ngIf="emailControl.errors?.emailExists" class="alert alert-danger">
-              Email already exists.
-            </div>
-            <!--<input name="userEmail" type="email" class="form-control" id="user-email" [formControl]="emailControl">-->
-            <!--        <div *ngIf="emailControl.errors?.emailExists" class="alert alert-danger">
-    Account's email already exists.
-  </div>-->
+                   >
           </div>
           <div class="mb-2">
             <label for="firstName" class="form-label">First Name</label>

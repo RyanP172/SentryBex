@@ -26,7 +26,7 @@ export class EmployeeShowroomService {
   createEmployee(createEmployee: CreateEmployee): Observable<CreateEmployee> {
     const httpOptions: Object = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      responseType: 'text'
+      responseType: 'json'
     };    
     return this.http.post<CreateEmployee>(`${this.apiUrl}/api/employee`, createEmployee, httpOptions);
   }
