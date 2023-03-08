@@ -9,56 +9,81 @@
                  class="form-control"
                  id="first-name"
                  [(ngModel)]="employee.firstName"
-                 formControlName="firstname">
-          <span class="badge bg-danger" *ngIf="!registerForm.get('firstname')?.valid && registerForm.get('firstname')?.touched">
-            Please enter a valid first name!
-            <!--          <div *ngIf="firstName.errors?.['required']">      First name is required.</div>
-  <div *ngIf="firstName.errors?.['maxlength']">      Name must be not exceed 80 characters long.</div> -->
+                 formControlName="firstname"
+                 [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }">
+          <!--          <span class="badge bg-danger" *ngIf="!registerForm.get('firstname')?.valid && registerForm.get('firstname')?.touched">
+                      Please enter a valid first name!
+                    </span>-->
+          <span *ngIf="submitted && f.firstname.errors" class="badge bg-danger">
+            <span *ngIf="f.firstname.errors.required">First name is required! </span>
+            <span *ngIf="f.firstname.errors.pattern">First name must not exceed 80 characters and include text only </span>
           </span>
         </div>
+
         <div class="form-group col-4">
           <label for="middleName" class="form-label">Middle Name</label>
           <input name="middle" type="text" class="form-control" id="middle-name"
-                 [(ngModel)]="employee.middleName" formControlName="midlename">
+                 [(ngModel)]="employee.middleName" formControlName="middlename"
+                 [ngClass]="{ 'is-invalid': submitted && f.middlename.errors }">
+          <span *ngIf="submitted && f.middlename.errors" class="badge bg-danger">
+            <span *ngIf="f.middlename.errors.required">Middle name is required! </span>
+            <span *ngIf="f.middlename.errors.pattern">Middle name must not exceed 80 characters and include text only </span>
+          </span>
         </div>
         <div class="form-group col-4">
           <label for="lastName" class="form-label">Last Name</label>
           <input name="last" type="text" class="form-control" id="last-name"
-                 [(ngModel)]="employee.lastName" formControlName="lastname">
-          <span
+                 [(ngModel)]="employee.lastName" formControlName="lastname"
+                 [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }">
+
+          <!--      <span
                 class="badge bg-danger"
-                *ngIf="!registerForm.get('lastname')?.valid && registerForm.get('lastname')?.touched" 
+                *ngIf="!registerForm.get('lastname')?.valid && registerForm.get('lastname')?.touched"
                 > Please enter a valid last name!
+          </span>-->
+          <span *ngIf="submitted && f.lastname.errors" class="badge bg-danger">
+            <span *ngIf="f.lastname.errors.required">Last name is required! </span>
+            <span *ngIf="f.lastname.errors.pattern">Last name must not exceed 80 characters and include text only </span>
           </span>
         </div>
-      </div>      <div class="row">
+      </div>
+      <div class="row">
         <div class="form-group col-8">
           <label for="email" class="form-label">Email</label>
           <input name="userEmail" class="form-control" id="user-email"
-                 [(ngModel)]="employee.email" formControlName="email">
-          <span
-                *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched"
-                class=" badge bg-danger">Please enter a valid email!
+                 [(ngModel)]="employee.email" formControlName="email"
+                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+          <!--          <span *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched"
+                  class=" badge bg-danger">
+              Please enter a valid email!
+            </span>-->
+          <span *ngIf="submitted && f.email.errors" class="badge bg-danger">
+            <span *ngIf="f.email.errors.required">Email is required! </span>
           </span>
-          <!--<span
-                class=" badge bg-danger"
-                *ngIf="registerForm.get('email').valid && registerForm.get('email').touched">            Please enter a valid email!
-          </span>-->
+
         </div>
         <div class="form-group col">
           <label for="samAccount" class="form-label">Sam Account</label>
           <input name="sam" type="text" class="form-control" id="sam-account"
-                 [(ngModel)]="employee.samAccountName" formControlName="samaccount">
-          <span class="badge bg-danger" *ngIf="!registerForm.get('samaccount')?.valid && registerForm.get('samaccount')?.touched">            Sam Account is
-            required!
+                 [(ngModel)]="employee.samAccountName" formControlName="samaccount"
+                 [ngClass]="{ 'is-invalid': submitted && f.samaccount.errors }">
+          <!--          <span class="badge bg-danger" *ngIf="!registerForm.get('samaccount')?.valid && registerForm.get('samaccount')?.touched">            Sam Account is
+              required!
+            </span>-->
+          <span *ngIf="submitted && f.samaccount.errors" class="badge bg-danger">
+            <span *ngIf="f.samaccount.errors.required">Sam Account is required! </span>            
           </span>
         </div>
         <div class="row">
           <div class="form-group col-4">
             <label for="dob" class="form-label">Date of Birth</label>
             <input name="dob" type="date" class="form-control" id="dob" [(ngModel)]="employee.dob"
-                   formControlName="dob">
-            <span class="badge bg-danger" *ngIf="!registerForm.get('dob')?.valid && registerForm.get('dob')?.touched">              Date of Birth is required!
+                   formControlName="dob"  [ngClass]="{ 'is-invalid': submitted && f.dob.errors }">
+            <!--            <span class="badge bg-danger" *ngIf="!registerForm.get('dob')?.valid && registerForm.get('dob')?.touched">
+                Date of Birth is required!
+              </span>-->
+            <span *ngIf="submitted && f.dob.errors" class="badge bg-danger">
+              <span *ngIf="f.dob.errors.required">Date of birth is required! </span>
             </span>
           </div>
           <div class="form-group col">
@@ -110,7 +135,7 @@
         <div class="button-container">
           <button type="submit" class="btn btn-primary">Save Changes</button>
           <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
-          <button class="btn btn-primary" type="button">Clear</button>
+          <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
         </div>        <div class=" mb-3" *ngIf="statusDesc.status == 400">
           <label for="state" class="form-label"></label>
           <div class="alert alert-danger form-label" role="alert">

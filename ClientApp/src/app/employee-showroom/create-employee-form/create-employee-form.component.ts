@@ -21,10 +21,12 @@ export class CreateEmployeeFormComponent implements OnInit {
     private router: Router,
     private employeeShowroomService: EmployeeShowroomService,
     private fb: FormBuilder,
-  ) { //this.registerForm = this.fb.group({})
-    this.registerForm = new FormGroup({});
+  ) { 
+    //this.registerForm = new FormGroup({});
+    this.registerForm = this.fb.group({});
   }
-  ngOnInit(): void {
+  // This way use FormGroup
+/*  ngOnInit(): void {
     this.registerForm = new FormGroup({
       'firstname': new FormControl(null, [Validators.required, Validators.maxLength(80), Validators.pattern('^[a-zA-Z_]+( [a-zA-Z_]+)*$')]),
       'email': new FormControl(null, [Validators.required, Validators.email]),
@@ -40,14 +42,30 @@ export class CreateEmployeeFormComponent implements OnInit {
       'maxleadcount': new FormControl(5),
       'monthlybudget': new FormControl(5000),
       'status': new FormControl('A')
-      //this.registerForm = this.fb.group({
-      //firstName: ['', Validators.required],
-      //lastName: ['', Validators.required],
-      //// validates date format yyyy-mm-dd
-      //dob: ['', [Validators.required, Validators.pattern(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)]],
-      //email: ['', [Validators.required, Validators.email]],
-      //});
+
     });
+  }*/
+
+
+  // This way use FormBuider
+  ngOnInit() {
+    this.registerForm = this.fb.group({
+      firstname: new FormControl(null, [Validators.required, Validators.maxLength(80), Validators.pattern('^[a-zA-Z_]+( [a-zA-Z_]+)*$')]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      middlename: new FormControl(null, [Validators.required,Validators.maxLength(80), Validators.pattern('^[a-zA-Z_]+( [a-zA-Z_]+)*$')]),
+      lastname: new FormControl(null, [Validators.required, Validators.maxLength(80), Validators.pattern('^[a-zA-Z_]+( [a-zA-Z_]+)*$')]),
+      samaccount: new FormControl(null, Validators.required),
+      dob: new FormControl(null, Validators.required),
+      contractortype: new FormControl(null),
+      code: new FormControl(null),
+      iscontractor: new FormControl(true),
+      showroom: new FormControl(1),
+      companyid: new FormControl(3),
+      maxleadcount: new FormControl(5),
+      monthlybudget: new FormControl(5000),
+      status: new FormControl('A')
+    })
+
   }
   get f() { return this.registerForm.controls; };
   createEmployeeOnSubmit() {
@@ -86,6 +104,10 @@ export class CreateEmployeeFormComponent implements OnInit {
     this.submitted = false;
     this.router.navigate(['/fetch-employee-showroom/employees/']);
     
+  }
+  onClear() {
+    this.submitted = false;
+    this.registerForm.reset();
   }
   checkEmailValid(email: any) {
   }
