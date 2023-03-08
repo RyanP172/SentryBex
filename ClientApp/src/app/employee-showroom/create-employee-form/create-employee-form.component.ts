@@ -11,7 +11,8 @@ import { EmployeeShowroomService } from '../../service/employee-showroom/employe
   styleUrls: ['./create-employee-form.component.css']
 })
 export class CreateEmployeeFormComponent implements OnInit {
-  
+ 
+
   statusDesc: any = {
     status: 0,
     description: ''
@@ -19,12 +20,13 @@ export class CreateEmployeeFormComponent implements OnInit {
   constructor(
     private router: Router,
     private employeeShowroomService: EmployeeShowroomService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,  
     
 
   ) { }
+
   ngOnInit(): void {
-    console.log(this.employee);
+
   }
 
 
@@ -42,9 +44,13 @@ export class CreateEmployeeFormComponent implements OnInit {
         },
         error: msg => {
           console.log(msg.error);
+          debugger;
           this.statusDesc.status = msg.error.status;
-          this.statusDesc.description = msg.error.message  + ". There is an error while creating a new employee";
-          alert(msg.error.message);
+          if (msg.error.title == "One or more validation errors occurred.") {
+            this.statusDesc.description = msg.error.title + " There is an error while creating a new employee";          }
+          else { this.statusDesc.description = msg.error.message + ". There is an error while creating a new employee"; }
+          alert(this.statusDesc.description);
+          
           console.log(this.statusDesc)
         }
       });
@@ -56,8 +62,14 @@ export class CreateEmployeeFormComponent implements OnInit {
     this.router.navigate(['/fetch-employee-showroom/employees/']);
   }
 
-  onClear() {
-    
+ 
+
+  checkEmailValid(email: any) {
+ 
+  }
+
+  checkEmail(email: any) {
+
   }
 
   employee: CreateEmployee = {
@@ -75,8 +87,8 @@ export class CreateEmployeeFormComponent implements OnInit {
     companyId: 3,
     email: '',
     samAccountName: '',
-    password: '',
-    passwordSalt: '',
+    //password: '',
+    //passwordSalt: '',
     status: 'A',
   }
 

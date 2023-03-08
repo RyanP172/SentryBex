@@ -1,9 +1,19 @@
-﻿namespace SentryBex.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SentryBex.Dtos
 {
     public class EpeEmployeeCreateDto
     {
+        [Required]
+        [StringLength(80, ErrorMessage = "First name is a string with a maximum length of 80")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,80}$", ErrorMessage = "First name can only contain common characters")]
         public string FirstName { get; set; } = null!;
+        [StringLength(80, ErrorMessage = "First name is a string with a maximum length of 80")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,80}$", ErrorMessage = "Middle name can only contain common characters")]
         public string? MiddleName { get; set; }
+        [Required]
+        [StringLength(80, ErrorMessage = "First name is a string with a maximum length of 80")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,80}$", ErrorMessage = "Last name can only contain common characters")]
         public string LastName { get; set; } = null!;
         public DateTime? Dob { get; set; } 
         public string? Code { get; set; }

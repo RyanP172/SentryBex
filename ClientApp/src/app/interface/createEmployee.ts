@@ -12,7 +12,7 @@ export interface CreateEmployee {
   companyId: number
   email: string
   samAccountName: string
-  password: string
-  passwordSalt: string
+  //password: string
+  //passwordSalt: string
   status: string
 }

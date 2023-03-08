@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using SentryBex.Dtos;
 using SentryBex.Models.EpeSchemes;
@@ -258,6 +259,10 @@ namespace SentryBex.Controllers
             {
                 return BadRequest(new { status = 400, message = $"Account email {createEmployee.Email} already existed" });
             }
+            //if(!ModelState.IsValid) 
+            //{
+            //    return BadRequest(ModelState);
+            //}
             var employee = await _epeEmployeeRepository.SaveCreatedEmployeeAsync(createEmployee);
             return Ok(employee);
         }
