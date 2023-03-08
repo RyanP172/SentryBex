@@ -1,12 +1,20 @@
 <div class="card m-3">
   <h2 class="card-hearder">Create A New Employee</h2>
   <div class="card-body">
-    <form #f="ngForm" (ngSubmit)="createEmployeeOnSubmit()">
+    <form [formGroup] = "registerForm" #f="ngForm" (ngSubmit)="createEmployeeOnSubmit()">
       <div class="row">
         <div class="form-group col-4">
           <label for="firstName" class="form-label">First Name</label>
-          <input name="first" type="text" class="form-control" id="first-name"
-                 [(ngModel)]="employee.firstName" required #firstName="ngModel" maxlength="80">
+          <input
+                 name="first"
+                 type="text"
+                 class="form-control"
+                 id="first-name"
+                 [(ngModel)]="employee.firstName"
+                 required
+                 #firstName="ngModel"
+                 maxlength="80"
+                 formControlName="firstName">
           <div class="badge bg-danger" *ngIf="!firstName.valid && firstName.dirty || firstName.touched">
             <div *ngIf="firstName.errors?.['required']">
               First name is required.
@@ -19,12 +27,12 @@
         <div class="form-group col-4">
           <label for="middleName" class="form-label">Middle Name</label>
           <input name="middle" type="text" class="form-control" id="middle-name"
-                 [(ngModel)]="employee.middleName" maxlength="80">
+                 [(ngModel)]="employee.middleName" maxlength="80" formControlName="middleName">
         </div>
         <div class="form-group col-4">
           <label for="lastName" class="form-label">Last Name</label>
           <input name="last" type="text" class="form-control" id="last-name"
-                 [(ngModel)]="employee.lastName" required #lastName="ngModel">
+                 [(ngModel)]="employee.lastName" required #lastName="ngModel" formControlName="lastName">
           <span class="badge bg-danger" *ngIf="!lastName.valid && lastName.touched">
             Last Name is
             required!
@@ -36,7 +44,7 @@
         <div class="form-group col-8">
           <label for="email" class="form-label">Email</label>
           <input name="userEmail" class="form-control" id="user-email" required email
-                 [(ngModel)]="employee.email" #email="ngModel" (blur)="checkEmail(email)">
+                 [(ngModel)]="employee.email" #email="ngModel" (blur)="checkEmail(email)" formControlName="email">
           <span class=" badge bg-danger" *ngIf="!email.valid && email.touched">
             Please enter a valid email!
           </span>
@@ -45,7 +53,7 @@
         <div class="form-group col">
           <label for="samAccount" class="form-label">Sam Account</label>
           <input name="sam" type="text" class="form-control" id="sam-account"
-                 [(ngModel)]="employee.samAccountName" required #samAccount="ngModel">
+                 [(ngModel)]="employee.samAccountName" required #samAccount="ngModel" formControlName="samAccount">
           <span class="badge bg-danger" *ngIf="!samAccount.valid && samAccount.touched">
             Sam Account is
             required!
@@ -55,7 +63,7 @@
           <div class="form-group col-4">
             <label for="dob" class="form-label">Date of Birth</label>
             <input name="dob" type="date" class="form-control" id="dob" [(ngModel)]="employee.dob" required
-                   #dob="ngModel">
+                   #dob="ngModel" formControlName="dob">
             <span class="badge bg-danger" *ngIf="!dob.valid && dob.touched">
               Date of Birth is required!
             </span>
@@ -64,11 +72,11 @@
           <div class="form-group col">
             <label for="contractorType" class="form-label">Contractor Type</label>
             <input name="contractor" type="text" class="form-control" id="contractor-type-id"
-                   [(ngModel)]="employee.contractorTypeId">
+                   [(ngModel)]="employee.contractorTypeId" formControlName="contractorType">
           </div>
           <div class="form-group col-4">
             <label for="code" class="form-label">Code</label>
-            <input name="Code" type="text" class="form-control" id="code" [(ngModel)]="employee.code">
+            <input name="Code" type="text" class="form-control" id="code" [(ngModel)]="employee.code" formControlName="code">
           </div>
         </div>
 
@@ -76,7 +84,7 @@
           <div class="form-group col-4">
             <label for="contractor" class="form-label">Is Contractor?</label>
             <select name="contractor" [(ngModel)]="employee.isContractor" class="form-select"
-                    aria-label="Default select example" id="is-contractor">
+                    aria-label="Default select example" id="is-contractor" >
               <option [ngValue]="false">No</option>
               <option [ngValue]="true">Yes</option>
             </select>

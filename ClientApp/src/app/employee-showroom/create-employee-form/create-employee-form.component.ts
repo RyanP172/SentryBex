@@ -11,7 +11,9 @@ import { EmployeeShowroomService } from '../../service/employee-showroom/employe
   styleUrls: ['./create-employee-form.component.css']
 })
 export class CreateEmployeeFormComponent implements OnInit {
- 
+
+  registerForm: FormGroup;
+
 
   statusDesc: any = {
     status: 0,
@@ -23,13 +25,22 @@ export class CreateEmployeeFormComponent implements OnInit {
     private fb: FormBuilder,  
     
 
-  ) { }
+  )
+  { this.registerForm = this.fb.group({}) }
 
   ngOnInit(): void {
+    this.registerForm = this.fb.group({
+   
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      // validates date format yyyy-mm-dd
+      dob: ['', [Validators.required, Validators.pattern(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)]],
+      email: ['', [Validators.required, Validators.email]],
 
+    })
   }
 
-
+  get f() { return this.registerForm.controls; };
 
   createEmployeeOnSubmit() {
 
@@ -57,6 +68,8 @@ export class CreateEmployeeFormComponent implements OnInit {
     }
 
   }
+
+
 
   onCancel() {
     this.router.navigate(['/fetch-employee-showroom/employees/']);
