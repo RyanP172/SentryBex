@@ -5,7 +5,7 @@ export interface CreateEmployee {
   dob: string | null
   code: string
   isContractor: boolean
-  contractorTypeId: string
+  //contractorTypeId: string
   defaultShowroomFk: number
   maxLeadCount: number
   monthlyBudget: number

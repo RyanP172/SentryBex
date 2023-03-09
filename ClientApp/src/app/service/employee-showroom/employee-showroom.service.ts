@@ -19,9 +19,12 @@ export class EmployeeShowroomService {
 
   constructor(private http: HttpClient) {  }
 
-  validateEmail(email: string) {
-    return this.http.get<boolean>(`${this.apiUrl}/api/account`+{email})
+  checkEmailExists(email: string) :Observable<boolean> {
+    debugger;
+    return this.http.get<boolean>(`${this.apiUrl}/api/account/` + { email });
   }
+
+
 
   createEmployee(createEmployee: CreateEmployee): Observable<CreateEmployee> {
     const httpOptions: Object = {

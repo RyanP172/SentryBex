@@ -1,9 +1,6 @@
-﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SentryBex.Database;
 using SentryBex.Models;
-using System.Collections.Generic;
-using System.Linq;
 using SentryBex.Utilitty;
 using System.Collections;
 using Microsoft.AspNetCore.Identity;
@@ -11,8 +8,6 @@ using SentryBex.Models.AspSchemes;
 using SentryBex.Models.EpeSchemes;
 using SentryBex.Models.UsrSchemes;
 using SentryBex.Dtos;
-using System;
-using System.Security.Principal;
 
 namespace SentryBex.Services
 {

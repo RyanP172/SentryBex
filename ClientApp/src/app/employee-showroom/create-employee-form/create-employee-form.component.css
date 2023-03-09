@@ -20,7 +20,9 @@ input.ng-invalid.ng-touched {
 
 span {
   margin-top: 5px;
-  display: inline-block;
+  float: left;
+  clear: left;
+  display: inline;
 }
 .card-body {
   background-color: lightblue;
