@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Validators, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { EmployeeShowroomService } from '../../service/employee-showroom/employee-showroom.service';
+import { Permission } from '../../interface/permission';
+import { ShowRoom } from '../../interface/show-room';
+import { RoleService } from '../../service/role/role.service';
+
 //import { isEmailExist } from '../../custom-validator/check-email-exist';
 @Component({
   selector: 'app-create-employee-form',
@@ -13,6 +17,8 @@ import { EmployeeShowroomService } from '../../service/employee-showroom/employe
 export class CreateEmployeeFormComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  roles: Permission[] = [];
+  showRooms: ShowRoom[] = [];
 
   statusDesc: any = {
     status: 0,
@@ -22,6 +28,7 @@ export class CreateEmployeeFormComponent implements OnInit {
     private router: Router,
     private employeeShowroomService: EmployeeShowroomService,
     private fb: FormBuilder,
+    private roleServices: RoleService,
   ) {
     //this.registerForm = new FormGroup({});
     this.registerForm = this.fb.group({});
@@ -52,11 +59,11 @@ export class CreateEmployeeFormComponent implements OnInit {
   ngOnInit() {
     this.registerForm = this.fb.group({
       firstname: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('^[-a-zA-Z-()]+(\s+[-a-zA-Z-()]+)*$')]],
-      email: ['', [Validators.maxLength(80) ,Validators.required, Validators.email]],      
+      email: ['', [Validators.maxLength(80), Validators.required, Validators.email]],
       middlename: ['', [Validators.maxLength(20), Validators.pattern('^[-a-zA-Z-()]+(\s+[-a-zA-Z-()]+)*$')]],
       lastname: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('^[-a-zA-Z-()]+(\s+[-a-zA-Z-()]+)*$')]],
       samaccount: ['', [Validators.required, Validators.maxLength(40), Validators.pattern('^[-a-zA-Z.@!#$%&0-9-()]+(\s+[-a-zA-Z.@!#$%&0-9-()]+)*$')]],
-      //dob: ['', [Validators.required, Validators.pattern('^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}*$')]],
+      //dob: ['', [Validators.required, Validators.pattern('^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}$')]],
       dob: ['', Validators.required],
       //contractortype: [''],
       code: ['', [Validators.maxLength(10), Validators.pattern('^[-a-zA-Z.@!#$%&0-9-()]+(\s+[-a-zA-Z.@!#$%&0-9-()]+)*$')]],
@@ -67,6 +74,8 @@ export class CreateEmployeeFormComponent implements OnInit {
       monthlybudget: [],
       status: ['A'],
     })
+    this.GetShowRooms();
+    this.GetRoles();
 
   }
   get f() { return this.registerForm.controls; };
@@ -101,8 +110,31 @@ export class CreateEmployeeFormComponent implements OnInit {
         }
       });
     }
-
   }
+
+  GetShowRooms() {
+    
+    this.employeeShowroomService.getShowRooms().subscribe(
+      (res) => {
+        this.showRooms = res;
+        console.log(this.showRooms);
+      },
+      (error: any) => console.log(error)
+    )
+  }
+
+  GetRoles() {
+    
+    this.roleServices.getRoles().subscribe(
+      (res) => {
+        this.roles = res;
+        console.log(this.roles);
+      },
+      (error: any) => console.log(error),
+      () => console.log("List roles done")
+    )
+  }
+
   onCancel() {
     this.submitted = false;
     this.router.navigate(['/fetch-employee-showroom/employees/']);
@@ -128,7 +160,7 @@ export class CreateEmployeeFormComponent implements OnInit {
     code: '',
     isContractor: true,
     //contractorTypeId: '',
-    defaultShowroomFk: 12,
+    defaultShowroomFk: 1,
     maxLeadCount: 5,
     monthlyBudget: 5000,
     companyId: 3,

@@ -15,4 +15,5 @@ export interface CreateEmployee {
   //password: string
   //passwordSalt: string
   status: string
+  
 }

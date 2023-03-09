@@ -8,6 +8,8 @@ using SentryBex.Models.AspSchemes;
 using SentryBex.Models.EpeSchemes;
 using SentryBex.Models.UsrSchemes;
 using SentryBex.Dtos;
+using SentryBex.Services.Authentication;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SentryBex.Services
 {
@@ -17,18 +19,24 @@ namespace SentryBex.Services
         private readonly AspNetContext _aspNetContext;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly AuthenticationRepository _authenticationRepository;
 
         public EpeEmployeeRepository(
             AppDbContext context, 
             AspNetContext aspNetContext,
             UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<IdentityUser> signInManager
+            //AuthenticationRepository authenticationRepository
             )
         {
             _context = context;
             _aspNetContext = aspNetContext;
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
+            //_authenticationRepository = authenticationRepository;
         }
 
         public async Task<IEnumerable<Employee>> GetEpeEmployeesAsync()
@@ -347,17 +355,28 @@ namespace SentryBex.Services
 
                         };
                         await _context.EpeEmployeeGroupLinks.AddRangeAsync(groupLink);
-                        if (await _context.SaveChangesAsync() > 0) retVal = true;
+                        if (await _context.SaveChangesAsync() > 0)
+                        {
+                            /*AspNetUserRegisterDto registerBody = new AspNetUserRegisterDto {
+                                Email = _employee.Email,
+                                Password = "Test@123",
+                                ConfirmPassword = "Test@123"
+                            };
+                            if(await _authenticationRepository.Register(registerBody)) retVal = true;*/ ;
+                            var user = new IdentityUser { UserName = _employee.Email, Email = _employee.Email };
+                            var result = await _userManager.CreateAsync(user, "Test@123");
+                            if (result.Succeeded)
+                            {
+                                // Sign in the user
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                retVal= true;
+                            }
 
+                        }                        
                     }
-                }
-
-                    
+                }                    
             }
             return retVal;
-
         }
-
-
     }
 }
