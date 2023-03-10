@@ -286,5 +286,36 @@ namespace SentryBex.Controllers
             return Ok(new { status = 200, response = result });
         }
 
+        [EnableCors("SentryBexCORSRules")]
+        [HttpPost("aspuser/{uuid}/userrole", Name = "AddAspUserRoleByUuid")]
+        [HttpHead("{uuid}")]
+        public async Task<IActionResult> AddAspUserRoleByUuid(string uuid, string roleId)
+        {
+           
+            var result = await _epeEmployeeRepository.SaveUpdatedAspNetUserRoleByUuIdAsync(uuid, roleId);
+            if (result)
+            {
+                /*return Ok(new 
+                { 
+                    status: 200,
+                    message: $"Roles has been assigned to user {uuid}",
+                });*/
+
+                await _loggerRepository.RecordLog(
+                        "cc468b6f-b0f5-4474-af6a-7d1cf263b862",
+                        "Create", $"cc468b6f-b0f5-4474-af6a-7d1cf263b862 success assign Roles - id: {roleId} to Employee - id: {uuid}", "success"
+                        );
+                return Ok(new { status = 200, message = $"Roles have been assigned to user {uuid}", result });
+            }
+
+            await _loggerRepository.RecordLog(
+                    "cc468b6f-b0f5-4474-af6a-7d1cf263b862",
+                    "Create", $"cc468b6f-b0f5-4474-af6a-7d1cf263b862 failed assign Roles - id: {roleId} to Employee - id: {uuid}", "failed"
+                    );
+            return BadRequest(new { status = 400, message = $"The role may not exist or already signed to this user - {uuid}", result });
+
+
+        }
+
     }
 }

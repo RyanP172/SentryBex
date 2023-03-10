@@ -7,6 +7,7 @@ using SentryBex.Dtos;
 using SentryBex.Models.EpeSchemes;
 using SentryBex.Services;
 using SentryBex.Services.Account;
+using SentryBex.Services.Authentication;
 using SentryBex.Services.Logger;
 using SentryBex.Utilitty;
 
@@ -33,16 +34,19 @@ namespace SentryBex.Controllers
 
         private readonly ILoggerRepository _loggerRepository;
         private readonly IAccountRepository _accountRepository;
+        private readonly IAuthenticationRepository _authenticationRepository;
 
         public EmployeeController(
             IEpeEmployeeRepository epeEmployeeRepository,
             ILoggerRepository loggerRepository,
-            IAccountRepository accountRepository
+            IAccountRepository accountRepository,
+            IAuthenticationRepository authenticationRepository
             )
         {
             _epeEmployeeRepository = epeEmployeeRepository ?? throw new ArgumentNullException(nameof(epeEmployeeRepository));
             _loggerRepository = loggerRepository ?? throw new ArgumentNullException(nameof(loggerRepository));
-            _accountRepository = accountRepository;
+            _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
+            _authenticationRepository = authenticationRepository ?? throw new ArgumentNullException(nameof(authenticationRepository));
         }
 
 
@@ -255,16 +259,20 @@ namespace SentryBex.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateNewEmployee([FromBody] EpeEmployeeCreateDto createEmployee)
         {
-            if (await _accountRepository.CheckEmailAccountExist(createEmployee.Email))
+            if (await _epeEmployeeRepository.CheckUserExistByEmail(createEmployee.Email))
             {
-                return BadRequest(new { status = 400, message = $"Account email {createEmployee.Email} already existed" });
+                if (await _accountRepository.CheckEmailAccountExist(createEmployee.Email))
+                {
+                    return BadRequest(new { status = 400, message = $"Account email {createEmployee.Email} already existed" });
+                }
+                var employee = await _epeEmployeeRepository.SaveCreatedEmployeeAsync(createEmployee);
+                return Ok(employee);
             }
-            //if(!ModelState.IsValid) 
-            //{
-            //    return BadRequest(ModelState);
-            //}
-            var employee = await _epeEmployeeRepository.SaveCreatedEmployeeAsync(createEmployee);
-            return Ok(employee);
+            else 
+            {                
+                return BadRequest(new { status = 400, message = $"User email {createEmployee.Email} does not exist" });
+            }            
+
         }
     }
 }

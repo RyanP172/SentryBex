@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SentryBex.Dtos;
 using SentryBex.Models;
+using SentryBex.Models.AspSchemes;
 using SentryBex.Models.EpeSchemes;
 using System.Collections;
 
@@ -11,7 +12,7 @@ namespace SentryBex.Services
     {
         Task<IEnumerable<Employee>> GetEpeEmployeesAsync();
         Task<IdentityUser> GetAspNetUserByIdAsync(string uuid);
-        Task<List<IdentityRole>> GetPermissionListAsync();
+        Task<IEnumerable<AspNetRole>> GetPermissionListAsync();
         Task<Employee> GetEpeEmployeesByIdAsync(int Id);
         Task<bool> EmployeeExistAsync(int Id);
         Task<Employee> GetEpeEmployeesByIdAsync(int Id, Employee updateEmployee);
@@ -28,12 +29,16 @@ namespace SentryBex.Services
         Task<bool> SaveRemovedEmployeeShowroomLinkAsync(int employeeId, List<long> showroomIdList);
         Task<bool> SaveUpdatedEmployeeActivationStatus(int employeeId, string status);
         Task<bool> SaveUpdatedAspNetUserRoleByIdAsync(string uuid, List<string> roleId);
+        Task<bool> SaveUpdatedAspNetUserRoleByUuIdAsync(string uuid, string roleId);
         Task<bool> SaveRemovedAspNetUserRoleByIdAsync(string uuid, List<string> roleIds);
+
 
         //TODO: Ryan's task
         Task<bool> SaveCreatedEmployeeAsync(EpeEmployeeCreateDto createEmployeeBody);
         /*Task<bool> SaveLinkedCreatedEmployeeAsync(EpeEmployeeCreateDto linkedEmployee);*/
-        
+        Task<bool> CheckUserExistByEmail(string email);
+
+
 
     }
 }

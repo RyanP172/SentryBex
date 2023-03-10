@@ -62,7 +62,8 @@ namespace SentryBex.Database
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
-                entity.Property(e => e.LockoutEnd).HasColumnType("datetime");
+                entity.Property(e => e.LockoutEndDateUtc).HasColumnType("datetime");
+                //entity.Property(e => e.LockoutEnd).HasColumnType("datetime");
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
 

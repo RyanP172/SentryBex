@@ -10,6 +10,7 @@ using SentryBex.Models.UsrSchemes;
 using SentryBex.Dtos;
 using SentryBex.Services.Authentication;
 using static System.Net.Mime.MediaTypeNames;
+using System;
 
 namespace SentryBex.Services
 {
@@ -20,7 +21,7 @@ namespace SentryBex.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly AuthenticationRepository _authenticationRepository;
+        
 
         public EpeEmployeeRepository(
             AppDbContext context, 
@@ -143,12 +144,17 @@ namespace SentryBex.Services
             return room;
         }
 
-        public async Task<List<IdentityRole>> GetPermissionListAsync()
+        public async Task<IEnumerable<AspNetRole>> GetPermissionListAsync()
         {
-           var list = await _roleManager.Roles.ToListAsync();
-            return list;
+            IQueryable<AspNetRole> result = from role in _aspNetContext.AspNetRoles
+                                            select new AspNetRole
+                                            {
+                                                Id = role.Id,
+                                                Name = role.Name
+                                            };
+            return await result.ToListAsync();
         }
-        
+
         public async Task<bool> PermissionExistAsync(string Id)
         {
             IdentityRole role = await _roleManager.FindByIdAsync(Id);
@@ -304,7 +310,7 @@ namespace SentryBex.Services
             bool retVal = false;  
             
 
-            using (_context)
+            using (_aspNetContext)
             {
                 UsrAccount account = new UsrAccount
                 {
@@ -313,9 +319,13 @@ namespace SentryBex.Services
                     SamAccountName = _employee.SamAccountName,
                     PasswordSalt = _employee.PasswordSalt,
                     Status = _employee.Status,
+                    Created = DateTime.UtcNow,
                 };
-                await _context.UsrAccounts.AddRangeAsync(account);
-                if (await _context.SaveChangesAsync() > 0)
+                await _aspNetContext.UsrAccounts.AddAsync(account);
+                try { 
+                
+                
+                if (await _aspNetContext.SaveChangesAsync() > 0)
                 {                    
                     EpeEmployee employee = new EpeEmployee
                     {
@@ -333,7 +343,7 @@ namespace SentryBex.Services
 
                     };
 
-                    await _context.EpeEmployees.AddAsync(employee);
+                    await _aspNetContext.EpeEmployees.AddAsync(employee);
                     if (await _context.SaveChangesAsync() > 0)
                     {
                         EpeEmployeeShowroomLink showroomLink = new EpeEmployeeShowroomLink
@@ -341,42 +351,58 @@ namespace SentryBex.Services
                             ShowroomFk = _employee.DefaultShowroomFk,
                             EmployeeFk = _employee.CompanyId
                         };
-                        await _context.EpeEmployeeShowroomLinks.AddRangeAsync(showroomLink);
+                        await _aspNetContext.EpeEmployeeShowroomLinks.AddAsync(showroomLink);
                         EpeEmployeeCompanyLink companyLink = new EpeEmployeeCompanyLink
                         {
                             CompanyFk = _employee.CompanyId,
                             EmployeeFk = employee.Id
                         };
-                        await _context.EpeEmployeeCompanyLinks.AddRangeAsync(companyLink);
+                        await _aspNetContext.EpeEmployeeCompanyLinks.AddAsync(companyLink);
                         EpeEmployeeGroupLink groupLink = new EpeEmployeeGroupLink
                         {
                             EmployeeFk = employee.Id,
                             GroupFk = 4,
 
                         };
-                        await _context.EpeEmployeeGroupLinks.AddRangeAsync(groupLink);
-                        if (await _context.SaveChangesAsync() > 0)
+                        await _context.EpeEmployeeGroupLinks.AddAsync(groupLink);
+                        if (await _context.SaveChangesAsync() > 0) 
                         {
-                            /*AspNetUserRegisterDto registerBody = new AspNetUserRegisterDto {
-                                Email = _employee.Email,
-                                Password = "Test@123",
-                                ConfirmPassword = "Test@123"
-                            };
-                            if(await _authenticationRepository.Register(registerBody)) retVal = true;*/ ;
-                            var user = new IdentityUser { UserName = _employee.Email, Email = _employee.Email };
-                            var result = await _userManager.CreateAsync(user, "Test@123");
-                            if (result.Succeeded)
-                            {
-                                // Sign in the user
-                                await _signInManager.SignInAsync(user, isPersistent: false);
-                                retVal= true;
-                            }
-
+                            retVal = true;
                         }                        
                     }
-                }                    
+                }
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
             return retVal;
         }
+
+        public async Task<bool> SaveUpdatedAspNetUserRoleByUuIdAsync(string uuid, string roleId)
+        {
+            bool retVal = false;
+            AspNetUser? user = await _aspNetContext.AspNetUsers.FirstAsync(a => a.Id == uuid);
+            AspNetRole? role = await _aspNetContext.AspNetRoles.FirstAsync(r =>r.Id == roleId);
+            user.Roles.Add(role);
+            if (await _aspNetContext.SaveChangesAsync() > 0)
+                retVal = true;
+            return retVal;
+
+        }
+
+        public async Task<bool>CheckUserExistByEmail(string email)
+        {
+
+            AspNetUser user = await _aspNetContext.AspNetUsers.Where(u => u.Email == email).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                return true;
+            }
+            return false;
+        } 
+
+
     }
 }

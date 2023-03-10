@@ -41,6 +41,15 @@ namespace SentryBex.Services.Authentication
             }
             return false;
         }
+        public async Task<bool> CheckEmailExistByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public async Task<bool> Login(LogInDto loginBody)
         {
