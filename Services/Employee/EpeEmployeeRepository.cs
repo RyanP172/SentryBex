@@ -344,7 +344,7 @@ namespace SentryBex.Services
                     };
 
                     await _aspNetContext.EpeEmployees.AddAsync(employee);
-                    if (await _context.SaveChangesAsync() > 0)
+                    if (await _aspNetContext.SaveChangesAsync() > 0)
                     {
                         EpeEmployeeShowroomLink showroomLink = new EpeEmployeeShowroomLink
                         {
@@ -364,8 +364,8 @@ namespace SentryBex.Services
                             GroupFk = 4,
 
                         };
-                        await _context.EpeEmployeeGroupLinks.AddAsync(groupLink);
-                        if (await _context.SaveChangesAsync() > 0) 
+                        await _aspNetContext.EpeEmployeeGroupLinks.AddAsync(groupLink);
+                        if (await _aspNetContext.SaveChangesAsync() > 0) 
                         {
                             retVal = true;
                         }                        

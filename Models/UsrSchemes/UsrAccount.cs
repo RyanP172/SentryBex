@@ -17,7 +17,7 @@ namespace SentryBex.Models.UsrSchemes
         public string? PasswordSalt { get; set; }
 
         
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]        
+              
         public DateTime Created { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public Guid? ResetPwdGuid { get; set; }
