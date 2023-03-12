@@ -94,7 +94,7 @@
             </span>-->
             <span *ngIf="submitted && f.dob.errors">
               <span *ngIf="f.dob.errors.required" class="badge bg-danger">Date of birth is required! </span>
-              <!--<span *ngIf="f.dob.errors.pattern">Date in wrong format </span>-->
+              <span *ngIf="f.dob.errors.pattern" class="badge bg-danger">Date in wrong format </span>
             </span>
           </div>
           <!--          <div class="form-group col">
