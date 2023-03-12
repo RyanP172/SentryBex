@@ -39,6 +39,8 @@ export class CreateEmployeeFormComponent implements OnInit {
     selected: false
   }
 
+
+
   statusDesc: any = {
     status: 0,
     description: ''
@@ -92,7 +94,7 @@ export class CreateEmployeeFormComponent implements OnInit {
       companyid: [],
       maxleadcount: [],
       monthlybudget: [],
-      status: ['A'],
+      status: [''],
     })
     this.GetShowRooms();
     this.GetRoles();
@@ -122,9 +124,9 @@ export class CreateEmployeeFormComponent implements OnInit {
 
           this.statusDesc.status = msg.error.status;
           if (msg.error.title == "One or more validation errors occurred.") {
-            this.statusDesc.description = msg.error.title + " There is an error while creating a new employee";
+            this.statusDesc.description = msg.error.title; 
           }
-          else { this.statusDesc.description = msg.error.message + ". There is an error while creating a new employee"; }
+          else { this.statusDesc.description = msg.error.message   }
           alert(this.statusDesc.description);
           console.log(this.statusDesc)
         }
@@ -155,6 +157,8 @@ export class CreateEmployeeFormComponent implements OnInit {
     )
   }
 
+ 
+
   onCancel() {
     this.submitted = false;
     this.router.navigate(['/fetch-employee-showroom/employees/']);
@@ -169,8 +173,8 @@ export class CreateEmployeeFormComponent implements OnInit {
     console.log(this.registerForm.controls['email']);
     return this.registerForm.controls['email'];
   }
-  checkEmailValid(email: any) {
-  }
+
+  
 
   employee: CreateEmployee = {
     firstName: '',
@@ -189,7 +193,7 @@ export class CreateEmployeeFormComponent implements OnInit {
     samAccountName: '',
     //password: '',
     //passwordSalt: '',
-    status: '',
+    status: 'A',
   }
 
 

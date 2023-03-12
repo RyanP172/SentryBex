@@ -2,67 +2,16 @@
   <h2 class="card-hearder">Create A New Employee</h2>  <div class="card-body">
     <form [formGroup]="registerForm" (ngSubmit)="createEmployeeOnSubmit()">
       <div class="row">
-        <div class="form-group col-4">
-          <label for="firstName" class="form-label">First Name</label>
-          <input name="first"
-                 type="text"
-                 class="form-control"
-                 id="first-name"
-                 [(ngModel)]="employee.firstName"
-                 formControlName="firstname"
-                 [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }">
-          <!--          <span class="badge bg-danger" *ngIf="!registerForm.get('firstname')?.valid && registerForm.get('firstname')?.touched">
-                      Please enter a valid first name!
-                    </span>-->
-          <div *ngIf="submitted && f.firstname.errors" >
-            <span *ngIf="f.firstname.errors.required" class="badge bg-danger">First name is required! </span>
-            <span *ngIf="f.firstname.errors.maxlength" class="badge bg-danger">First name must not exceed 20 characters! </span>
-            <span *ngIf="f.firstname.errors.pattern" class="badge bg-danger">First name must include text only and no whitespace! </span>
-            <!--<span *ngIf="f.firstname.errors.maxlength">First name must not exceed 80 characters</span>-->
-          </div>
-        </div>
-
-        <div class="form-group col-4">
-          <label for="middleName" class="form-label">Middle Name</label>
-          <input name="middle" type="text" class="form-control" id="middle-name"
-                 [(ngModel)]="employee.middleName" formControlName="middlename"
-                 [ngClass]="{ 'is-invalid': submitted && f.middlename.errors }">
-          <div *ngIf="submitted && f.middlename.errors">
-            
-            <span *ngIf="f.middlename.errors.maxlength" class="badge bg-danger">Middle name must not exceed 20 characters! </span>
-            <span *ngIf="f.middlename.errors.pattern" class="badge bg-danger">Middle name must include text only and no whitespace!! </span> 
-          </div>
-          
-        </div>
-        <div class="form-group col-4">
-          <label for="lastName" class="form-label">Last Name</label>
-          <input name="last" type="text" class="form-control" id="last-name"
-                 [(ngModel)]="employee.lastName" formControlName="lastname"
-                 [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }">
-
-          <!--      <span
-                class="badge bg-danger"
-                *ngIf="!registerForm.get('lastname')?.valid && registerForm.get('lastname')?.touched"
-                > Please enter a valid last name!
-          </span>-->
-          <div *ngIf="submitted && f.lastname.errors">
-            <span *ngIf="f.lastname.errors.required" class="badge bg-danger">Last name is required! </span>
-            <span *ngIf="f.lastname.errors.maxlength"class="badge bg-danger">Last name must not exceed 20 characters! </span>
-            <span *ngIf="f.lastname.errors.pattern" class="badge bg-danger">Last name must include text only and no whitespace!! </span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
         <div class="form-group col-8">
           <label for="email" class="form-label">Email</label>
           <input name="userEmail" class="form-control" id="user-email"
                  [(ngModel)]="employee.email" formControlName="email"
                  [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
           <!--          <span *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched"
-                  class=" badge bg-danger">
-              Please enter a valid email!
-            </span>-->
-          <div *ngIf="submitted && f.email.errors" >
+                class=" badge bg-danger">
+            Please enter a valid email!
+          </span>-->
+          <div *ngIf="submitted && f.email.errors">
             <span *ngIf="f.email.errors.required" class="badge bg-danger">Email is required! </span>
             <span *ngIf="f.email.errors.maxlength " class="badge bg-danger">Email is exceed 80 characters! </span>
             <span *ngIf="f.email.errors.email" class="badge bg-danger">Email is not valid! </span>
@@ -75,8 +24,8 @@
                  [(ngModel)]="employee.samAccountName" formControlName="samaccount"
                  [ngClass]="{ 'is-invalid': submitted && f.samaccount.errors }">
           <!--          <span class="badge bg-danger" *ngIf="!registerForm.get('samaccount')?.valid && registerForm.get('samaccount')?.touched">            Sam Account is
-              required!
-            </span>-->
+            required!
+          </span>-->
           <div *ngIf="submitted && f.samaccount.errors">
             <span *ngIf="f.samaccount.errors.required" class="badge bg-danger">Sam Account is required! </span>
             <span *ngIf="f.samaccount.errors.maxlength" class="badge bg-danger">Sam Account can only have maximum 40 characters </span>
@@ -84,19 +33,71 @@
           </div>
         </div>
         <div class="row">
+          <div class="form-group col-4">
+            <label for="firstName" class="form-label">First Name</label>
+            <input name="first"
+                   type="text"
+                   class="form-control"
+                   id="first-name"
+                   [(ngModel)]="employee.firstName"
+                   formControlName="firstname"
+                   [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }">
+            <!--          <span class="badge bg-danger" *ngIf="!registerForm.get('firstname')?.valid && registerForm.get('firstname')?.touched">
+              Please enter a valid first name!
+            </span>-->
+            <div *ngIf="submitted && f.firstname.errors">
+              <span *ngIf="f.firstname.errors.required" class="badge bg-danger">First name is required! </span>
+              <span *ngIf="f.firstname.errors.maxlength" class="badge bg-danger">First name must not exceed 20 characters! </span>
+              <span *ngIf="f.firstname.errors.pattern" class="badge bg-danger">First name must include text only and no whitespace! </span>
+              <!--<span *ngIf="f.firstname.errors.maxlength">First name must not exceed 80 characters</span>-->
+            </div>
+          </div>
+
+          <div class="form-group col-4">
+            <label for="middleName" class="form-label">Middle Name</label>
+            <input name="middle" type="text" class="form-control" id="middle-name"
+                   [(ngModel)]="employee.middleName" formControlName="middlename"
+                   [ngClass]="{ 'is-invalid': submitted && f.middlename.errors }">
+            <div *ngIf="submitted && f.middlename.errors">
+
+              <span *ngIf="f.middlename.errors.maxlength" class="badge bg-danger">Middle name must not exceed 20 characters! </span>
+              <span *ngIf="f.middlename.errors.pattern" class="badge bg-danger">Middle name must include text only and no whitespace!! </span>
+            </div>
+
+          </div>
+          <div class="form-group col-4">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input name="last" type="text" class="form-control" id="last-name"
+                   [(ngModel)]="employee.lastName" formControlName="lastname"
+                   [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }">
+
+            <!--      <span
+                  class="badge bg-danger"
+                  *ngIf="!registerForm.get('lastname')?.valid && registerForm.get('lastname')?.touched"
+                  > Please enter a valid last name!
+            </span>-->
+            <div *ngIf="submitted && f.lastname.errors">
+              <span *ngIf="f.lastname.errors.required" class="badge bg-danger">Last name is required! </span>
+              <span *ngIf="f.lastname.errors.maxlength" class="badge bg-danger">Last name must not exceed 20 characters! </span>
+              <span *ngIf="f.lastname.errors.pattern" class="badge bg-danger">Last name must include text only and no whitespace!! </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="form-group col">
             <label for="dob" class="form-label">Date of Birth</label>
             <input name="dob" type="date" class="form-control" id="dob" [(ngModel)]="employee.dob"
-                   formControlName="dob"  [ngClass]="{ 'is-invalid': submitted && f.dob.errors }">
+                   formControlName="dob" [ngClass]="{ 'is-invalid': submitted && f.dob.errors }">
             <!--            <span class="badge bg-danger" *ngIf="!registerForm.get('dob')?.valid && registerForm.get('dob')?.touched">
-                Date of Birth is required!
-              </span>-->
-            <span *ngIf="submitted && f.dob.errors" >
+              Date of Birth is required!
+            </span>-->
+            <span *ngIf="submitted && f.dob.errors">
               <span *ngIf="f.dob.errors.required" class="badge bg-danger">Date of birth is required! </span>
               <!--<span *ngIf="f.dob.errors.pattern">Date in wrong format </span>-->
             </span>
           </div>
-<!--          <div class="form-group col">
+          <!--          <div class="form-group col">
             <label for="contractorType" class="form-label">Contractor Type</label>
             <input name="contractor" type="text" class="form-control" id="contractor-type-id"
                    [(ngModel)]="employee.contractorTypeId" formControlName="contractortype">
@@ -105,9 +106,9 @@
             <label for="code" class="form-label">Code</label>
             <input name="Code" type="text" class="form-control" id="code" [(ngModel)]="employee.code" formControlName="code"
                    [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
-            <span *ngIf="submitted && f.code.errors" >
+            <span *ngIf="submitted && f.code.errors">
               <span *ngIf="f.code.errors.maxlength" class="badge bg-danger">Code can only have maximum 10 characters </span>
-              <!--<span *ngIf="f.dob.errors.pattern">Date in wrong format </span>-->
+              <span *ngIf="f.code.errors.pattern" class="badge bg-danger">Code can only have test and number and no space </span>
             </span>
           </div>
         </div>
@@ -137,14 +138,22 @@
 
           <div class="form-group col-3">
             <label for="status" class="form-label">Status</label>
-            <input name="status" type="text" class="form-control" id="status" [(ngModel)]="employee.status" formControlName="status">
+            <select name="status" type="text" class="form-control" id="status" [(ngModel)]="employee.status" formControlName="status">
+              <option value="A">Active</option>
+              <option value="">Disabled</option>
+            </select>
           </div>
         </div>
         <div class="row">
           <div class="form-group col-4">
             <label for="companyId" class="form-label">Company Id</label>
-            <input name="companyId" type="number" class="form-control" id="company-id" formControlName="companyid"
-                   [(ngModel)]="employee.companyId">
+            <select name="companyId" type="number" class="form-control" id="company-id" formControlName="companyid"
+                    [(ngModel)]="employee.companyId">
+              <option value="3">Wynstan</option>
+              <option value="1">Wynstan Factory</option>
+
+            </select>
+
           </div>
           <div class="form-group col-4">
             <label for="maxLeadCount" class="form-label">Max Lead Count</label>
@@ -163,8 +172,8 @@
           <button class="btn btn-primary" type="reset" (click)="onClear()">Clear</button>
         </div>        <div class=" mb-3" *ngIf="statusDesc.status == 400">
           <label for="state" class="form-label"></label>
-          <div class="alert alert-danger form-label" role="alert">
-            Error! {{statusDesc.description}}
+          <div class="alert alert-warning" role="alert">
+            {{statusDesc.description}}
           </div>
         </div>
         <div class=" mb-3" *ngIf="statusDesc.status == 200">

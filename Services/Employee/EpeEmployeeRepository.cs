@@ -345,10 +345,10 @@ namespace SentryBex.Services
                     await _aspNetContext.EpeEmployees.AddAsync(employee);
                     if (await _aspNetContext.SaveChangesAsync() > 0)
                     {
-                        EpeEmployeeShowroomLink showroomLink = new EpeEmployeeShowroomLink
-                        {
-                            ShowroomFk = _employee.DefaultShowroomFk,
-                            EmployeeFk = _employee.CompanyId
+                            EpeEmployeeShowroomLink showroomLink = new EpeEmployeeShowroomLink
+                            {
+                                ShowroomFk = _employee.DefaultShowroomFk,
+                                EmployeeFk = employee.Id
                         };
                         await _aspNetContext.EpeEmployeeShowroomLinks.AddAsync(showroomLink);
                         EpeEmployeeCompanyLink companyLink = new EpeEmployeeCompanyLink
