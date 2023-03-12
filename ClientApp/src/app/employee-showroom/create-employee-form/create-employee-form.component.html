@@ -112,7 +112,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-4">
+          <div class="form-group col-3">
             <label for="contractor" class="form-label">Is Contractor?</label>
             <select name="contractor" [(ngModel)]="employee.isContractor" class="form-select" formControlName="iscontractor"
                     aria-label="Default select example" id="is-contractor">
@@ -120,12 +120,22 @@
               <option [ngValue]="true">Yes</option>
             </select>
           </div>
-          <div class="form-group col">
-            <label for="showroom" class="form-label">Show Room</label>
-            <input name="showroom" type="text" class="form-control" id="showroom" formControlName="showroom"
-                   [(ngModel)]="employee.defaultShowroomFk">
+          <div class="form-group col-3">
+            <label for="sr" class="form-label">Select Show Room</label>
+            <select name="sr" [(ngModel)]="employee.defaultShowroomFk" class="form-select" formControlName="sr"
+                    aria-label="Default select example" id="sr">
+              <option *ngFor="let showroom of showRooms" [value]="showroom.id">{{showroom.name}}</option>
+            </select>
           </div>
-          <div class="form-group col-4">
+          <div class="form-group col">
+            <label for="sr" class="form-label">Select Role</label>
+            <select name="sr" [(ngModel)]="employee.defaultRole" class="form-select" formControlName="role"
+                    aria-label="Default select example" id="role">
+              <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-3">
             <label for="status" class="form-label">Status</label>
             <input name="status" type="text" class="form-control" id="status" [(ngModel)]="employee.status" formControlName="status">
           </div>

@@ -8,7 +8,7 @@ import { Permission } from '../../interface/permission';
 import { ShowRoom } from '../../interface/show-room';
 import { RoleService } from '../../service/role/role.service';
 
-//import { isEmailExist } from '../../custom-validator/check-email-exist';
+
 @Component({
   selector: 'app-create-employee-form',
   templateUrl: './create-employee-form.component.html',
@@ -18,7 +18,26 @@ export class CreateEmployeeFormComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   roles: Permission[] = [];
+  
   showRooms: ShowRoom[] = [];
+  showRoom: ShowRoom = {
+    id: 0,
+    companyFk: 0,
+    name: '',
+    shopCode: '',
+    orderPrefix: 0,
+    defaultConsultantFk: 0,
+    monthlyBudget: 0,
+    state: '',
+    loadDay: 0,
+    selected: false
+  }
+
+  role: Permission = {
+    id: '',
+    name: '',
+    selected: false
+  }
 
   statusDesc: any = {
     status: 0,
@@ -68,7 +87,8 @@ export class CreateEmployeeFormComponent implements OnInit {
       //contractortype: [''],
       code: ['', [Validators.maxLength(10), Validators.pattern('^[-a-zA-Z.@!#$%&0-9-()]+(\s+[-a-zA-Z.@!#$%&0-9-()]+)*$')]],
       iscontractor: [''],
-      showroom: [],
+      sr: [''],
+      role:[''],
       companyid: [],
       maxleadcount: [],
       monthlybudget: [],
@@ -160,7 +180,8 @@ export class CreateEmployeeFormComponent implements OnInit {
     code: '',
     isContractor: true,
     //contractorTypeId: '',
-    defaultShowroomFk: 1,
+    defaultShowroomFk: this.showRoom.id=1,
+    defaultRole: this.role.id ='fa3700c6-1f94-43a5-8ca5-c01649732188',
     maxLeadCount: 5,
     monthlyBudget: 5000,
     companyId: 3,
@@ -170,4 +191,6 @@ export class CreateEmployeeFormComponent implements OnInit {
     //passwordSalt: '',
     status: '',
   }
+
+
 }

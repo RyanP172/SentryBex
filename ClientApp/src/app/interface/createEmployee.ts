@@ -14,6 +14,7 @@ export interface CreateEmployee {
   samAccountName: string
   //password: string
   //passwordSalt: string
-  status: string
+  status: string,
+  defaultRole: string
   
 }
