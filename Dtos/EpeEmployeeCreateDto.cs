@@ -36,7 +36,7 @@ namespace SentryBex.Dtos
         //public DateTime? ResetPwdDatetime { get; set; }
         //public DateTime? Modified { get; set; }
         public string? Status { get; set; }
-
+        //[Required]
         public string? DefaultRole { get; set; }
     }
 }

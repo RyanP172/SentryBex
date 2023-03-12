@@ -307,8 +307,7 @@ namespace SentryBex.Services
 
         public async Task<bool> SaveCreatedEmployeeAsync(EpeEmployeeCreateDto _employee)
         {
-            bool retVal = false;  
-            
+            bool retVal = false;             
 
             using (_aspNetContext)
             {
@@ -322,8 +321,7 @@ namespace SentryBex.Services
                     Created = DateTime.UtcNow,
                 };
                 await _aspNetContext.UsrAccounts.AddAsync(account);
-                try { 
-                
+                try {                
                 
                 if (await _aspNetContext.SaveChangesAsync() > 0)
                 {                    
@@ -365,12 +363,19 @@ namespace SentryBex.Services
                             GroupFk = 4,
                             Created = DateTime.UtcNow,
 
+
                         };
                         await _aspNetContext.EpeEmployeeGroupLinks.AddAsync(groupLink);
                         if (await _aspNetContext.SaveChangesAsync() > 0) 
                         {
-                            retVal = true;
-                        }                        
+                                if (_employee.DefaultRole == null)
+                                {
+                                    _employee.DefaultRole = "29d89e8e-1012-43d0-b8e7-d0d7b04d0f5d";
+                                }                                 
+                                var result = await SaveUpdatedAspNetUserRoleByUuIdAsync(_employee.Email, _employee.DefaultRole);
+                                if (result) { retVal = true; }
+
+                            }                        
                     }
                 }
                 }
@@ -382,11 +387,11 @@ namespace SentryBex.Services
             return retVal;
         }
 
-        public async Task<bool> SaveUpdatedAspNetUserRoleByUuIdAsync(string uuid, string roleId)
+        public async Task<bool> SaveUpdatedAspNetUserRoleByUuIdAsync(string email, string roleId)
         {
             bool retVal = false;
-            AspNetUser? user = await _aspNetContext.AspNetUsers.FirstAsync(a => a.Id == uuid);
-            AspNetRole? role = await _aspNetContext.AspNetRoles.FirstAsync(r =>r.Id == roleId);
+            AspNetUser? user = await _aspNetContext.AspNetUsers.Where(u => u.Email == email).FirstOrDefaultAsync();
+            AspNetRole? role = await _aspNetContext.AspNetRoles.Where(r =>r.Id == roleId).FirstOrDefaultAsync();
             user.Roles.Add(role);
             if (await _aspNetContext.SaveChangesAsync() > 0)
                 retVal = true;
@@ -395,10 +400,8 @@ namespace SentryBex.Services
         }
 
         public async Task<bool>CheckUserExistByEmail(string email)
-        {
-
-            AspNetUser user = await _aspNetContext.AspNetUsers.Where(u => u.Email == email).FirstOrDefaultAsync();
-            if (user != null)
+        {           
+            if (await _aspNetContext.AspNetUsers.Where(u => u.Email == email).FirstOrDefaultAsync() != null)
             {
                 return true;
             }

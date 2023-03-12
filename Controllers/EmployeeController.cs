@@ -266,7 +266,8 @@ namespace SentryBex.Controllers
                     return BadRequest(new { status = 400, message = $"Account email {createEmployee.Email} already existed" });
                 }
                 var employee = await _epeEmployeeRepository.SaveCreatedEmployeeAsync(createEmployee);
-                return Ok(employee);
+                if (employee) return Ok(employee);
+                else return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
             else 
             {                
