@@ -340,6 +340,7 @@ namespace SentryBex.Services
                         MaxLeadCount = _employee.MaxLeadCount,
                         MonthlyBudget = _employee.MonthlyBudget,
                         AccountFk = account.Id,
+                        Created = DateTime.UtcNow,
 
                     };
 
@@ -362,6 +363,7 @@ namespace SentryBex.Services
                         {
                             EmployeeFk = employee.Id,
                             GroupFk = 4,
+                            Created = DateTime.UtcNow,
 
                         };
                         await _aspNetContext.EpeEmployeeGroupLinks.AddAsync(groupLink);

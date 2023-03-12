@@ -50,7 +50,7 @@ namespace SentryBex.Services.Account
         public async Task<bool> CheckEmailAccountExist(string email)
         {
             
-            UsrAccount? account = await _appContext.UsrAccounts.FirstOrDefaultAsync(a => a.UserName == email);
+            UsrAccount? account = await _aspContext.UsrAccounts.FirstOrDefaultAsync(a => a.UserName == email);
             if (account != null)
             {
                 return true;
