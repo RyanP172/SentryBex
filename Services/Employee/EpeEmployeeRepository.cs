@@ -21,10 +21,10 @@ namespace SentryBex.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        
+
 
         public EpeEmployeeRepository(
-            AppDbContext context, 
+            AppDbContext context,
             AspNetContext aspNetContext,
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -43,23 +43,24 @@ namespace SentryBex.Services
         public async Task<IEnumerable<Employee>> GetEpeEmployeesAsync()
         {
             IQueryable<Employee> query = from epe in _context.EpeEmployees
-                        join usr in _context.UsrAccounts on epe.AccountFk equals usr.Id
-                        select new EpeEmployee
-                        {   Id = epe.Id, 
-                            FirstName = epe.FirstName, 
-                            LastName = epe.LastName,
-                            MiddleName = epe.MiddleName,
-                            Dob = epe.Dob,
-                            Created = epe.Created,
-                            Modified = epe.Modified,
-                            Code = epe.Code,
-                            IsContractor = epe.IsContractor,
-                            MaxLeadCount = epe.MaxLeadCount,
-                            MonthlyBudget = epe.MonthlyBudget,
-                            account = usr
-                        };
+                                         join usr in _context.UsrAccounts on epe.AccountFk equals usr.Id
+                                         select new EpeEmployee
+                                         {
+                                             Id = epe.Id,
+                                             FirstName = epe.FirstName,
+                                             LastName = epe.LastName,
+                                             MiddleName = epe.MiddleName,
+                                             Dob = epe.Dob,
+                                             Created = epe.Created,
+                                             Modified = epe.Modified,
+                                             Code = epe.Code,
+                                             IsContractor = epe.IsContractor,
+                                             MaxLeadCount = epe.MaxLeadCount,
+                                             MonthlyBudget = epe.MonthlyBudget,
+                                             account = usr
+                                         };
 
-            var result =await query.ToListAsync();
+            var result = await query.ToListAsync();
             return result;
         }
 
@@ -307,7 +308,7 @@ namespace SentryBex.Services
 
         public async Task<bool> SaveCreatedEmployeeAsync(EpeEmployeeCreateDto _employee)
         {
-            bool retVal = false;             
+            bool retVal = false;
 
             using (_aspNetContext)
             {
@@ -321,63 +322,66 @@ namespace SentryBex.Services
                     Created = DateTime.UtcNow,
                 };
                 await _aspNetContext.UsrAccounts.AddAsync(account);
-                try {                
-                
-                if (await _aspNetContext.SaveChangesAsync() > 0)
-                {                    
-                    EpeEmployee employee = new EpeEmployee
-                    {
-                        FirstName = _employee.FirstName,
-                        LastName = _employee.LastName,
-                        MiddleName = _employee.MiddleName,
-                        Dob = _employee.Dob,
-                        Code = _employee.Code,
-                        IsContractor = _employee.IsContractor,
-                        ContractorTypeFk = _employee.ContractorTypeFk,
-                        DefaultShowroomFk = _employee.DefaultShowroomFk,
-                        MaxLeadCount = _employee.MaxLeadCount,
-                        MonthlyBudget = _employee.MonthlyBudget,
-                        AccountFk = account.Id,
-                        Created = DateTime.UtcNow,
+                try
+                {
 
-                    };
-
-                    await _aspNetContext.EpeEmployees.AddAsync(employee);
                     if (await _aspNetContext.SaveChangesAsync() > 0)
                     {
+                        EpeEmployee employee = new EpeEmployee
+                        {
+                            FirstName = _employee.FirstName,
+                            LastName = _employee.LastName,
+                            MiddleName = _employee.MiddleName,
+                            Dob = _employee.Dob,
+                            Code = _employee.Code,
+                            IsContractor = _employee.IsContractor,
+                            ContractorTypeFk = _employee.ContractorTypeFk,
+                            DefaultShowroomFk = _employee.DefaultShowroomFk,
+                            MaxLeadCount = _employee.MaxLeadCount,
+                            MonthlyBudget = _employee.MonthlyBudget,
+                            AccountFk = account.Id,
+                            Created = DateTime.UtcNow,
+
+                        };
+
+                        await _aspNetContext.EpeEmployees.AddAsync(employee);
+                        if (await _aspNetContext.SaveChangesAsync() > 0)
+                        {
                             EpeEmployeeShowroomLink showroomLink = new EpeEmployeeShowroomLink
                             {
                                 ShowroomFk = _employee.DefaultShowroomFk,
                                 EmployeeFk = employee.Id
-                        };
-                        await _aspNetContext.EpeEmployeeShowroomLinks.AddAsync(showroomLink);
-                        EpeEmployeeCompanyLink companyLink = new EpeEmployeeCompanyLink
-                        {
-                            CompanyFk = _employee.CompanyId,
-                            EmployeeFk = employee.Id
-                        };
-                        await _aspNetContext.EpeEmployeeCompanyLinks.AddAsync(companyLink);
-                        EpeEmployeeGroupLink groupLink = new EpeEmployeeGroupLink
-                        {
-                            EmployeeFk = employee.Id,
-                            GroupFk = 4,
-                            Created = DateTime.UtcNow,
+                            };
+                            await _aspNetContext.EpeEmployeeShowroomLinks.AddAsync(showroomLink);
+                            EpeEmployeeCompanyLink companyLink = new EpeEmployeeCompanyLink
+                            {
+                                CompanyFk = _employee.CompanyId,
+                                EmployeeFk = employee.Id
+                            };
+                            await _aspNetContext.EpeEmployeeCompanyLinks.AddAsync(companyLink);
+                            EpeEmployeeGroupLink groupLink = new EpeEmployeeGroupLink
+                            {
+                                EmployeeFk = employee.Id,
+                                GroupFk = 4,
+                                Created = DateTime.UtcNow,
 
 
-                        };
-                        await _aspNetContext.EpeEmployeeGroupLinks.AddAsync(groupLink);
-                        if (await _aspNetContext.SaveChangesAsync() > 0) 
-                        {
-                                if (_employee.DefaultRole == null)
+                            };
+                            await _aspNetContext.EpeEmployeeGroupLinks.AddAsync(groupLink);
+                            if (await _aspNetContext.SaveChangesAsync() > 0)
+                            {
+                                if (String.IsNullOrEmpty(_employee.DefaultRole))
                                 {
-                                    _employee.DefaultRole = "29d89e8e-1012-43d0-b8e7-d0d7b04d0f5d";
-                                }                                 
+                                    _employee.DefaultRole = (await _aspNetContext.AspNetRoles.Where(role => role.Name == "Admin").FirstOrDefaultAsync())?.Id;
+
+                                }
+
                                 var result = await SaveUpdatedAspNetUserRoleByUuIdAsync(_employee.Email, _employee.DefaultRole);
                                 if (result) { retVal = true; }
 
-                            }                        
+                            }
+                        }
                     }
-                }
                 }
                 catch (Exception ex)
                 {
@@ -391,7 +395,7 @@ namespace SentryBex.Services
         {
             bool retVal = false;
             AspNetUser? user = await _aspNetContext.AspNetUsers.Where(u => u.Email == email).FirstOrDefaultAsync();
-            AspNetRole? role = await _aspNetContext.AspNetRoles.Where(r =>r.Id == roleId).FirstOrDefaultAsync();
+            AspNetRole? role = await _aspNetContext.AspNetRoles.Where(r => r.Id == roleId).FirstOrDefaultAsync();
             user.Roles.Add(role);
             if (await _aspNetContext.SaveChangesAsync() > 0)
                 retVal = true;
@@ -399,14 +403,14 @@ namespace SentryBex.Services
 
         }
 
-        public async Task<bool>CheckUserExistByEmail(string email)
-        {           
+        public async Task<bool> CheckUserExistByEmail(string email)
+        {
             if (await _aspNetContext.AspNetUsers.Where(u => u.Email == email).FirstOrDefaultAsync() != null)
             {
                 return true;
             }
             return false;
-        } 
+        }
 
 
     }
